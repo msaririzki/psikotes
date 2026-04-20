@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { ArrowRight, FolderGit2 } from 'lucide-vue-next';
-import BelajarProgresBadge from '@/components/learn/BelajarProgresBadge.vue';
+import LearnProgressBadge from '@/components/learn/LearnProgressBadge.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { dashboard } from '@/routes';
@@ -37,7 +37,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Dasbor', href: dashboard() },
             { title: 'Belajar', href: '/learn' },
-            { title: 'Category', href: '#' },
+            { title: 'Kategori', href: '#' },
         ],
     },
 });
@@ -77,7 +77,7 @@ defineProps<{
                         </p>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
-                        <BelajarProgresBadge
+                        <LearnProgressBadge
                             :status="
                                 category.progress.completion_rate === 100
                                     ? 'completed'
@@ -118,7 +118,7 @@ defineProps<{
                                 }}
                             </p>
                         </div>
-                        <BelajarProgresBadge
+                        <LearnProgressBadge
                             :status="
                                 subtest.progress.completion_rate === 100
                                     ? 'completed'
@@ -154,7 +154,7 @@ defineProps<{
                         <div
                             class="rounded-2xl bg-[#f8fbff] p-4 text-sm text-slate-600"
                         >
-                            <p class="text-slate-500">In progress</p>
+                            <p class="text-slate-500">Sedang dipelajari</p>
                             <p
                                 class="mt-2 text-xl font-semibold text-slate-950"
                             >
@@ -176,7 +176,7 @@ defineProps<{
                                 <p class="font-medium text-slate-900">
                                     {{ module.title }}
                                 </p>
-                                <BelajarProgresBadge
+                                <LearnProgressBadge
                                     :status="module.progress.status"
                                     :label="module.progress.label"
                                 />
@@ -200,5 +200,3 @@ defineProps<{
         </section>
     </div>
 </template>
-
-

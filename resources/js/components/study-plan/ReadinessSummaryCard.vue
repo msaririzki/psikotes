@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { KesiapanSummary } from '@/types';
+import type { ReadinessSummary } from '@/types';
 
 defineProps<{
-    readiness: KesiapanSummary;
+    readiness: ReadinessSummary;
 }>();
 </script>
 

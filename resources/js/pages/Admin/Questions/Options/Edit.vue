@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import QuestionOptionForm from '@/pages/Admin/Soal/Options/Partials/QuestionOptionForm.vue';
+import QuestionOptionForm from '@/pages/Admin/Questions/Options/Partials/QuestionOptionForm.vue';
 import { dashboard } from '@/routes';
 
 type QuestionSummary = {

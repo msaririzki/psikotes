@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { ArrowRight, BookOpenText, Clock3, Layers3, PlayCircle } from 'lucide-vue-next';
-import SimulasiRiwayatCard from '@/components/simulation/SimulasiRiwayatCard.vue';
+import SimulationHistoryCard from '@/components/simulation/SimulationHistoryCard.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { dashboard } from '@/routes';
-import type { SimulasiRiwayatItem } from '@/types';
+import type { SimulationRiwayatItem } from '@/types';
 
 type CompositionItem = {
     subtest_id: number | null;
@@ -24,7 +24,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Dasbor', href: dashboard() },
             { title: 'Simulasi', href: '/simulations' },
-            { title: 'Package', href: '#' },
+            { title: 'Paket', href: '#' },
         ],
     },
 });
@@ -51,7 +51,7 @@ defineProps<{
         } | null;
     };
     composition: CompositionItem[];
-    recentAttempts: SimulasiRiwayatItem[];
+    recentAttempts: SimulationRiwayatItem[];
 }>();
 </script>
 
@@ -64,7 +64,7 @@ defineProps<{
         >
             <div class="grid gap-6 xl:grid-cols-[1.1fr,0.9fr] xl:items-end">
                 <div class="space-y-4">
-                    <p class="text-sm font-medium text-[#b91c1c]">Simulasi Package</p>
+                    <p class="text-sm font-medium text-[#b91c1c]">Paket simulasi</p>
                     <div>
                         <h1 class="font-display text-4xl font-bold tracking-tight text-slate-950">
                             {{ simulationPackage.title }}
@@ -131,7 +131,7 @@ defineProps<{
                                 <Link
                                     :href="`/simulations/attempts/${simulationPackage.in_progress_attempt.id}`"
                                 >
-                                    Lanjutkan attempt aktif
+                                    Lanjutkan sesi aktif
                                 </Link>
                             </Button>
                         </div>
@@ -223,7 +223,7 @@ defineProps<{
                         </CardTitle>
                     </CardHeader>
                     <CardContent class="space-y-3">
-                        <SimulasiRiwayatCard
+                        <SimulationHistoryCard
                             v-for="attempt in recentAttempts"
                             :key="attempt.id"
                             :attempt="attempt"

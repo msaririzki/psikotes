@@ -9,7 +9,7 @@ import {
     Layers3,
     XCircle,
 } from 'lucide-vue-next';
-import SimulationRiwayatCard from '@/components/simulation/SimulationRiwayatCard.vue';
+import SimulationHistoryCard from '@/components/simulation/SimulationHistoryCard.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { dashboard } from '@/routes';
@@ -344,7 +344,7 @@ function formatDuration(totalSeconds: number) {
                         <CardTitle>Ringkasan attempt</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <SimulationRiwayatCard
+                        <SimulationHistoryCard
                             :attempt="{
                                 id: attempt.id,
                                 package_title: simulationPackage.title ?? null,

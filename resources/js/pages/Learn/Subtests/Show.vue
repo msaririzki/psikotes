@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import { FileQuestion } from 'lucide-vue-next';
-import BelajaringModuleCard from '@/components/learn/BelajaringModuleCard.vue';
+import LearningModuleCard from '@/components/learn/LearningModuleCard.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { dashboard } from '@/routes';
 import type { BelajarProgres, BelajarRecentMiniQuiz } from '@/types';
@@ -29,7 +29,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Dasbor', href: dashboard() },
             { title: 'Belajar', href: '/learn' },
-            { title: 'Subtest', href: '#' },
+            { title: 'Subtes', href: '#' },
         ],
     },
 });
@@ -124,7 +124,7 @@ defineProps<{
 
         <section class="grid gap-4 xl:grid-cols-[1.2fr,0.8fr]">
             <div class="space-y-4">
-                <BelajaringModuleCard
+                <LearningModuleCard
                     v-for="module in modules"
                     :key="module.id"
                     :title="module.title"
@@ -142,7 +142,7 @@ defineProps<{
                 <CardHeader>
                     <CardTitle class="flex items-center gap-2">
                         <FileQuestion class="size-5 text-[#b91c1c]" />
-                        Riwayat mini quiz
+                        Riwayat mini kuis
                     </CardTitle>
                 </CardHeader>
                 <CardContent class="space-y-3">
@@ -152,7 +152,7 @@ defineProps<{
                         class="rounded-2xl border border-[#e7edf2] bg-[#fbfdff] p-4"
                     >
                         <p class="font-medium text-slate-900">
-                            {{ attempt.learning_module || 'Mini quiz' }}
+                            {{ attempt.learning_module || 'Mini kuis' }}
                         </p>
                         <p class="mt-1 text-sm text-slate-500">
                             Skor {{ attempt.score_total ?? 0 }} • Akurasi
@@ -169,12 +169,10 @@ defineProps<{
                         v-if="recentMiniQuizzes.length === 0"
                         class="text-sm text-slate-500"
                     >
-                        Belum ada histori mini quiz pada subtes ini.
+                        Belum ada riwayat mini kuis pada subtes ini.
                     </p>
                 </CardContent>
             </Card>
         </section>
     </div>
 </template>
-
-

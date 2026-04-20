@@ -8,8 +8,8 @@ import {
     Target,
 } from 'lucide-vue-next';
 import { computed } from 'vue';
-import LatihanAnalyticsSnapshot from '@/components/practice/LatihanAnalyticsSnapshot.vue';
-import LatihanRiwayatCard from '@/components/practice/LatihanRiwayatCard.vue';
+import PracticeAnalyticsSnapshot from '@/components/practice/PracticeAnalyticsSnapshot.vue';
+import PracticeHistoryCard from '@/components/practice/PracticeHistoryCard.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { dashboard } from '@/routes';
@@ -21,7 +21,7 @@ type DifficultyOption = {
     available_questions: number;
 };
 
-type BelajaringModulePreview = {
+type LearningModulePreview = {
     id: number;
     title: string;
     slug: string;
@@ -64,7 +64,7 @@ const props = defineProps<{
             total_questions: number;
         } | null;
     };
-    learningModul: BelajaringModulePreview[];
+    learningModul: LearningModulePreview[];
     recentAttempts: LatihanRiwayatItem[];
 }>();
 
@@ -73,7 +73,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Dasbor', href: dashboard() },
             { title: 'Latihan', href: '/practice' },
-            { title: 'Subtest', href: '#' },
+            { title: 'Subtes', href: '#' },
         ],
     },
 });
@@ -167,28 +167,28 @@ function submit() {
                         <span
                             class="rounded-full bg-white px-3 py-1 ring-1 ring-[#e4ebf1]"
                         >
-                            {{ subtest.availability.all }} soal published siap
-                            practice
+                            {{ subtest.availability.all }} soal terbit siap
+                            latihan
                         </span>
                         <span
                             class="rounded-full bg-white px-3 py-1 ring-1 ring-[#e4ebf1]"
                         >
-                            Easy {{ subtest.availability.easy }}
+                            Mudah {{ subtest.availability.easy }}
                         </span>
                         <span
                             class="rounded-full bg-white px-3 py-1 ring-1 ring-[#e4ebf1]"
                         >
-                            Medium {{ subtest.availability.medium }}
+                            Menengah {{ subtest.availability.medium }}
                         </span>
                         <span
                             class="rounded-full bg-white px-3 py-1 ring-1 ring-[#e4ebf1]"
                         >
-                            Hard {{ subtest.availability.hard }}
+                            Sulit {{ subtest.availability.hard }}
                         </span>
                     </div>
                 </div>
 
-                <LatihanAnalyticsSnapshot
+                <PracticeAnalyticsSnapshot
                     :analytics="subtest.analytics"
                     compact
                 />
@@ -203,7 +203,7 @@ function submit() {
                     <CardHeader>
                         <CardTitle class="flex items-center gap-2">
                             <Layers3 class="size-5 text-[#b91c1c]" />
-                            Atur sesi practice
+                            Atur sesi latihan
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -213,7 +213,7 @@ function submit() {
                                     <label
                                         class="text-sm font-medium text-slate-700"
                                     >
-                                        Difficulty
+                                        Tingkat kesulitan
                                     </label>
                                     <select
                                         v-model="form.difficulty"
@@ -535,7 +535,7 @@ function submit() {
                         </CardTitle>
                     </CardHeader>
                     <CardContent class="space-y-3">
-                        <LatihanRiwayatCard
+                        <PracticeHistoryCard
                             v-for="attempt in recentAttempts"
                             :key="attempt.id"
                             :attempt="attempt"

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { KesiapanSubtestProgress } from '@/types';
+import type { ReadinessSubtestProgress } from '@/types';
 
 defineProps<{
-    item: KesiapanSubtestProgress;
+    item: ReadinessSubtestProgress;
 }>();
 
-const toneMap = {
+const toneMap: Record<ReadinessSubtestProgress['state'], string> = {
     foundation: 'bg-rose-50 text-rose-800 ring-rose-200',
     practice_ready: 'bg-sky-50 text-sky-800 ring-sky-200',
     simulation_ready: 'bg-emerald-50 text-emerald-800 ring-emerald-200',

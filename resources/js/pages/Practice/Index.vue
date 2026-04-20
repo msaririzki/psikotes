@@ -8,8 +8,8 @@ import {
     Layers3,
     Sparkles,
 } from 'lucide-vue-next';
-import LatihanAnalyticsSnapshot from '@/components/practice/LatihanAnalyticsSnapshot.vue';
-import LatihanRiwayatCard from '@/components/practice/LatihanRiwayatCard.vue';
+import PracticeAnalyticsSnapshot from '@/components/practice/PracticeAnalyticsSnapshot.vue';
+import PracticeHistoryCard from '@/components/practice/PracticeHistoryCard.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { dashboard } from '@/routes';
@@ -345,7 +345,7 @@ defineProps<{
             </div>
 
             <div class="space-y-5">
-                <LatihanAnalyticsSnapshot
+                <PracticeAnalyticsSnapshot
                     :analytics="{
                         attempts_count: summary.practice_attempts,
                         best_score: summary.best_score,
@@ -395,7 +395,7 @@ defineProps<{
                         <CardTitle>Histori terbaru</CardTitle>
                     </CardHeader>
                     <CardContent class="space-y-3">
-                        <LatihanRiwayatCard
+                        <PracticeHistoryCard
                             v-for="attempt in recentAttempts"
                             :key="attempt.id"
                             :attempt="attempt"

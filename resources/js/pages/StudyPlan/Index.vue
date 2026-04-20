@@ -10,9 +10,9 @@ import {
     Target,
 } from 'lucide-vue-next';
 import GoalProgressCard from '@/components/study-plan/GoalProgressCard.vue';
-import KesiapanMilestoneCard from '@/components/study-plan/KesiapanMilestoneCard.vue';
-import KesiapanSubtestCard from '@/components/study-plan/KesiapanSubtestCard.vue';
-import KesiapanSummaryCard from '@/components/study-plan/KesiapanSummaryCard.vue';
+import ReadinessMilestoneCard from '@/components/study-plan/ReadinessMilestoneCard.vue';
+import ReadinessSubtestCard from '@/components/study-plan/ReadinessSubtestCard.vue';
+import ReadinessSummaryCard from '@/components/study-plan/ReadinessSummaryCard.vue';
 import StudyTaskCard from '@/components/study-plan/StudyTaskCard.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -69,7 +69,7 @@ defineProps<{
             </div>
         </section>
 
-        <KesiapanSummaryCard :readiness="studyPlan.readiness" />
+        <ReadinessSummaryCard :readiness="studyPlan.readiness" />
 
         <section class="space-y-5">
             <div class="flex items-center gap-2">
@@ -172,7 +172,7 @@ defineProps<{
                     class="rounded-[1.75rem] border-[#dfe8ef] bg-white/95 shadow-sm"
                 >
                     <CardContent class="p-6 text-sm text-slate-500">
-                        Belum ada aksi prioritas yang cukup kuat. Tambahkan lebih banyak histori belajar agar adaptive plan bisa lebih spesifik.
+                        Belum ada aksi prioritas yang cukup kuat. Tambahkan lebih banyak histori belajar agar rencana adaptif bisa lebih spesifik.
                     </CardContent>
                 </Card>
 
@@ -369,7 +369,7 @@ defineProps<{
             </div>
 
             <div class="grid gap-5 xl:grid-cols-2">
-                <KesiapanMilestoneCard
+                <ReadinessMilestoneCard
                     v-for="milestone in studyPlan.readiness_progress.milestones"
                     :key="milestone.id"
                     :milestone="milestone"
@@ -386,7 +386,7 @@ defineProps<{
             </div>
 
             <div class="grid gap-5 xl:grid-cols-3">
-                <KesiapanSubtestCard
+                <ReadinessSubtestCard
                     v-for="item in studyPlan.readiness_progress.subtests"
                     :key="item.subtest_slug"
                     :item="item"

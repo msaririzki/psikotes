@@ -10,7 +10,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Dasbor', href: dashboard() },
             { title: 'Belajar', href: '/learn' },
-            { title: 'Mini Quiz Result', href: '#' },
+            { title: 'Hasil Mini Kuis', href: '#' },
         ],
     },
 });
@@ -60,7 +60,7 @@ defineProps<{
 </script>
 
 <template>
-    <Head :title="`Result - ${module.title || 'Mini Quiz'}`" />
+    <Head :title="`Hasil - ${module.title || 'Mini Kuis'}`" />
 
     <div class="flex flex-1 flex-col gap-6 p-4">
         <section

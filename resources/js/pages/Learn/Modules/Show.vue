@@ -7,8 +7,8 @@ import {
     Rocket,
     Target,
 } from 'lucide-vue-next';
-import BelajaringSectionCard from '@/components/learn/BelajaringSectionCard.vue';
-import BelajarProgresBadge from '@/components/learn/BelajarProgresBadge.vue';
+import LearningSectionCard from '@/components/learn/LearningSectionCard.vue';
+import LearnProgressBadge from '@/components/learn/LearnProgressBadge.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { dashboard } from '@/routes';
@@ -32,7 +32,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Dasbor', href: dashboard() },
             { title: 'Belajar', href: '/learn' },
-            { title: 'Module', href: '#' },
+            { title: 'Modul', href: '#' },
         ],
     },
 });
@@ -100,7 +100,7 @@ defineProps<{
                         </p>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
-                        <BelajarProgresBadge
+                        <LearnProgressBadge
                             :status="module.progress.status"
                             :label="module.progress.label"
                         />
@@ -168,7 +168,7 @@ defineProps<{
 
         <section class="grid gap-6 xl:grid-cols-[1.1fr,0.9fr]">
             <div class="space-y-5">
-                <BelajaringSectionCard
+                <LearningSectionCard
                     title="Pengenalan"
                     description="Ringkasan inti modul sebelum masuk ke detail pembelajaran."
                 >
@@ -181,9 +181,9 @@ defineProps<{
                             'Konten pengenalan belum tersedia.'
                         }}
                     </div>
-                </BelajaringSectionCard>
+                </LearningSectionCard>
 
-                <BelajaringSectionCard
+                <LearningSectionCard
                     title="Tujuan Belajar"
                     description="Target pemahaman yang sebaiknya sudah terbentuk setelah modul ini selesai."
                 >
@@ -197,9 +197,9 @@ defineProps<{
                             <span>{{ objective }}</span>
                         </li>
                     </ul>
-                </BelajaringSectionCard>
+                </LearningSectionCard>
 
-                <BelajaringSectionCard
+                <LearningSectionCard
                     title="Cara Mengerjakan"
                     description="Panduan kerja yang konsisten dengan instruksi subtes di CMS."
                 >
@@ -211,9 +211,9 @@ defineProps<{
                             'Instruksi subtes belum diisi.'
                         }}
                     </div>
-                </BelajaringSectionCard>
+                </LearningSectionCard>
 
-                <BelajaringSectionCard
+                <LearningSectionCard
                     title="Materi Inti"
                     description="Bagian utama untuk membaca konsep, pola, dan alur penyelesaian."
                 >
@@ -225,10 +225,10 @@ defineProps<{
                             'Konten modul belum diisi dari CMS.'
                         }}
                     </div>
-                </BelajaringSectionCard>
+                </LearningSectionCard>
 
                 <div class="grid gap-5 lg:grid-cols-2">
-                    <BelajaringSectionCard
+                    <LearningSectionCard
                         title="Tips"
                         description="Saran praktis untuk mengurangi salah langkah."
                     >
@@ -243,9 +243,9 @@ defineProps<{
                                 }}
                             </div>
                         </div>
-                    </BelajaringSectionCard>
+                    </LearningSectionCard>
 
-                    <BelajaringSectionCard
+                    <LearningSectionCard
                         title="Trik"
                         description="Shortcut yang membantu menjawab lebih stabil dan efisien."
                     >
@@ -260,10 +260,10 @@ defineProps<{
                                 }}
                             </div>
                         </div>
-                    </BelajaringSectionCard>
+                    </LearningSectionCard>
                 </div>
 
-                <BelajaringSectionCard
+                <LearningSectionCard
                     title="Contoh Soal"
                     description="Contoh diambil langsung dari bank soal published pada subtes yang sama."
                 >
@@ -320,7 +320,7 @@ defineProps<{
                             Contoh soal belum tersedia pada subtes ini.
                         </p>
                     </div>
-                </BelajaringSectionCard>
+                </LearningSectionCard>
             </div>
 
             <div class="space-y-5">

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { KesiapanMilestone } from '@/types';
+import type { ReadinessMilestone } from '@/types';
 
 defineProps<{
-    milestone: KesiapanMilestone;
+    milestone: ReadinessMilestone;
 }>();
 
-const toneMap = {
+const toneMap: Record<ReadinessMilestone['state'], string> = {
     starting: 'bg-slate-100 text-slate-700 ring-slate-200',
     in_progress: 'bg-amber-50 text-amber-800 ring-amber-200',
     completed: 'bg-emerald-50 text-emerald-800 ring-emerald-200',

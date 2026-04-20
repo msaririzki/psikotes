@@ -7,11 +7,11 @@ import {
     MonitorPlay,
     ShieldCheck,
 } from 'lucide-vue-next';
-import SimulasiRiwayatCard from '@/components/simulation/SimulasiRiwayatCard.vue';
+import SimulationHistoryCard from '@/components/simulation/SimulationHistoryCard.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { dashboard } from '@/routes';
-import type { SimulasiRiwayatItem, SimulasiSummary } from '@/types';
+import type { SimulationRiwayatItem, SimulationSummary } from '@/types';
 
 type SimulasiPackageCard = {
     id: number;
@@ -46,9 +46,9 @@ defineOptions({
 });
 
 defineProps<{
-    summary: SimulasiSummary;
+    summary: SimulationSummary;
     packages: SimulasiPackageCard[];
-    recentAttempts: SimulasiRiwayatItem[];
+    recentAttempts: SimulationRiwayatItem[];
 }>();
 </script>
 
@@ -248,7 +248,7 @@ defineProps<{
                         </CardTitle>
                     </CardHeader>
                     <CardContent class="space-y-3">
-                        <SimulasiRiwayatCard
+                        <SimulationHistoryCard
                             v-for="attempt in recentAttempts"
                             :key="attempt.id"
                             :attempt="attempt"

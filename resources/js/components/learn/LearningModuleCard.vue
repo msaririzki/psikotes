@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { ArrowRight, Clock3 } from 'lucide-vue-next';
-import BelajarProgresBadge from '@/components/learn/BelajarProgresBadge.vue';
+import LearnProgressBadge from '@/components/learn/LearnProgressBadge.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import type { BelajarProgres } from '@/types/learning';
@@ -40,7 +40,7 @@ defineProps<{
                         </span>
                     </div>
                 </div>
-                <BelajarProgresBadge
+                <LearnProgressBadge
                     :status="progress.status"
                     :label="progress.label"
                 />

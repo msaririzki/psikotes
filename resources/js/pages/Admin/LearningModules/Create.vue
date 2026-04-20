@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import BelajaringModuleForm from '@/pages/Admin/BelajaringModul/Partials/BelajaringModuleForm.vue';
+import LearningModuleForm from '@/pages/Admin/LearningModules/Partials/LearningModuleForm.vue';
 import { dashboard } from '@/routes';
 import type { EntityOption, SelectOption } from '@/types';
 
@@ -9,8 +9,8 @@ defineOptions({
         breadcrumbs: [
             { title: 'Dasbor', href: dashboard() },
             { title: 'Admin', href: '/admin' },
-            { title: 'Belajaring Modul', href: '/admin/learning-modules' },
-            { title: 'Create', href: '/admin/learning-modules/create' },
+            { title: 'Modul Belajar', href: '/admin/learning-modules' },
+            { title: 'Tambah', href: '/admin/learning-modules/create' },
         ],
     },
 });
@@ -23,10 +23,10 @@ defineProps<{
 </script>
 
 <template>
-    <Head title="Create Belajaring Module" />
+    <Head title="Tambah Modul Belajar" />
 
     <div class="flex flex-1 flex-col gap-6 p-4">
-        <BelajaringModuleForm
+        <LearningModuleForm
             :categories="categories"
             :subtests="subtests"
             :levels="levels"

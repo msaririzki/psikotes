@@ -10,8 +10,8 @@ import {
     Target,
 } from 'lucide-vue-next';
 import GoalProgressCard from '@/components/study-plan/GoalProgressCard.vue';
-import KesiapanMilestoneCard from '@/components/study-plan/KesiapanMilestoneCard.vue';
-import KesiapanSummaryCard from '@/components/study-plan/KesiapanSummaryCard.vue';
+import ReadinessMilestoneCard from '@/components/study-plan/ReadinessMilestoneCard.vue';
+import ReadinessSummaryCard from '@/components/study-plan/ReadinessSummaryCard.vue';
 import StudyTaskCard from '@/components/study-plan/StudyTaskCard.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -130,7 +130,7 @@ defineOptions({
             </div>
         </section>
 
-        <KesiapanSummaryCard :readiness="studyPlan.readiness" />
+        <ReadinessSummaryCard :readiness="studyPlan.readiness" />
 
         <section class="space-y-5">
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -385,7 +385,7 @@ defineOptions({
                         Milestone berikutnya
                     </h2>
                 </div>
-                <KesiapanMilestoneCard
+                <ReadinessMilestoneCard
                     v-for="milestone in studyPlan.readiness_progress.milestones.slice(0, 2)"
                     :key="milestone.id"
                     :milestone="milestone"

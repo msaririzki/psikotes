@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import CategoryForm from '@/pages/Admin/Kategori/Partials/CategoryForm.vue';
+import CategoryForm from '@/pages/Admin/Categories/Partials/CategoryForm.vue';
 import { dashboard } from '@/routes';
 
 defineOptions({

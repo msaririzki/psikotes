@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { ArrowRight, BookOpenText, Brain, Sparkles } from 'lucide-vue-next';
-import BelajarProgresBadge from '@/components/learn/BelajarProgresBadge.vue';
+import LearnProgressBadge from '@/components/learn/LearnProgressBadge.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { dashboard } from '@/routes';
@@ -171,7 +171,7 @@ defineProps<{
                                     </p>
                                 </div>
                                 <div class="flex flex-wrap items-center gap-3">
-                                    <BelajarProgresBadge
+                                    <LearnProgressBadge
                                         :status="
                                             category.progress
                                                 .completion_rate === 100
@@ -222,7 +222,7 @@ defineProps<{
                                                 }}
                                             </p>
                                         </div>
-                                        <BelajarProgresBadge
+                                        <LearnProgressBadge
                                             :status="
                                                 subtest.progress
                                                     .completion_rate === 100
@@ -271,14 +271,14 @@ defineProps<{
                                                     <p
                                                         class="mt-1 text-xs text-slate-500"
                                                     >
-                                                        Quiz attempt:
+                                                        Percobaan kuis:
                                                         {{
                                                             module.progress
                                                                 .quiz_attempts_count
                                                         }}
                                                     </p>
                                                 </div>
-                                                <BelajarProgresBadge
+                                                <LearnProgressBadge
                                                     :status="
                                                         module.progress.status
                                                     "
@@ -313,7 +313,7 @@ defineProps<{
                             class="rounded-[1.25rem] border border-[#e7edf2] bg-[#fbfdff] p-4"
                         >
                             <p class="font-medium text-slate-900">
-                                {{ attempt.learning_module || 'Mini quiz' }}
+                                {{ attempt.learning_module || 'Mini kuis' }}
                             </p>
                             <p class="mt-1 text-sm text-slate-500">
                                 Skor {{ attempt.score_total ?? 0 }} • Akurasi
@@ -330,7 +330,7 @@ defineProps<{
                             v-if="recentMiniQuizzes.length === 0"
                             class="text-sm text-slate-500"
                         >
-                            Belum ada mini quiz yang dikerjakan.
+                            Belum ada mini kuis yang dikerjakan.
                         </p>
                     </CardContent>
                 </Card>
@@ -352,7 +352,7 @@ defineProps<{
                         <p class="text-sm leading-6 text-slate-200">
                             Untuk user pemula, alur paling aman adalah baca
                             modul pertama, pahami instruksi subtes, lalu
-                            kerjakan mini quiz sebelum lanjut ke modul
+                            kerjakan mini kuis sebelum lanjut ke modul
                             berikutnya.
                         </p>
                         <div class="space-y-3 text-sm text-slate-100">
@@ -365,7 +365,7 @@ defineProps<{
                             <div class="flex items-start gap-3">
                                 <Sparkles class="mt-0.5 size-4" />
                                 <span
-                                    >Gunakan hasil mini quiz untuk menentukan
+                                    >Gunakan hasil mini kuis untuk menentukan
                                     review.</span
                                 >
                             </div>

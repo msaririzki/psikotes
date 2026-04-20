@@ -9,7 +9,7 @@ import {
     Target,
     XCircle,
 } from 'lucide-vue-next';
-import LatihanRiwayatCard from '@/components/practice/LatihanRiwayatCard.vue';
+import PracticeHistoryCard from '@/components/practice/PracticeHistoryCard.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { dashboard } from '@/routes';
@@ -421,7 +421,7 @@ function formatDuration(totalSeconds: number) {
                         <CardTitle>Ringkasan histori</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <LatihanRiwayatCard
+                        <PracticeHistoryCard
                             :attempt="{
                                 id: attempt.id,
                                 subtest,

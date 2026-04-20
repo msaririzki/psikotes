@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import SubtestForm from '@/pages/Admin/Subtes/Partials/SubtestForm.vue';
+import SubtestForm from '@/pages/Admin/Subtests/Partials/SubtestForm.vue';
 import { dashboard } from '@/routes';
 import type { EntityOption, SelectOption } from '@/types';
 
