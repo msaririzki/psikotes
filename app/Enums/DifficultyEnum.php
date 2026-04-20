@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Enums;
+
+enum DifficultyEnum: string
+{
+    case EASY = 'easy';
+    case MEDIUM = 'medium';
+    case HARD = 'hard';
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::EASY => 'Mudah',
+            self::MEDIUM => 'Menengah',
+            self::HARD => 'Sulit',
+        };
+    }
+}
+
