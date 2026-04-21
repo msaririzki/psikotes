@@ -37,6 +37,12 @@ class AdminUserSeeder extends Seeder
                 'role' => UserRoleEnum::USER,
                 'verified' => true,
             ],
+            [
+                'name' => 'Muhamad Tegar',
+                'email' => 'muhamadtegarnawirsyarqawit@gmail.com',
+                'role' => UserRoleEnum::USER,
+                'verified' => true,
+            ],
         ];
 
         foreach ($accounts as $account) {
