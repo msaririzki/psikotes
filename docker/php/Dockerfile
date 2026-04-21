@@ -53,6 +53,10 @@ COPY docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
 
 RUN git config --global --add safe.directory /var/www/html
 
+RUN mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/testing storage/framework/views bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 RUN npm ci \
     && php artisan wayfinder:generate --with-form \
@@ -60,10 +64,6 @@ RUN npm ci \
     && rm -rf node_modules
 
 RUN cp -r /var/www/html/public /public-init
-
-RUN mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/testing storage/framework/views bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
 
 COPY docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
