@@ -158,17 +158,19 @@ npm run build
 
 Stack Docker yang disiapkan di repo ini memakai:
 
-- `web`: Apache + PHP 8.3 + Laravel app
-- `db`: MySQL 8.4
+- `app`: PHP 8.3 FPM + Laravel app
+- `web`: Nginx 1.27
+- `db`: MariaDB 10.11
 
 Targetnya adalah deploy sederhana dari VM Linux, termasuk kalau kamu login ke VM sebagai `root`.
 
 ### File yang dipakai
 
-- `Dockerfile`
 - `docker-compose.yml`
 - `.env.docker.example`
-- `docker/entrypoint.sh`
+- `docker/php/Dockerfile`
+- `docker/php/entrypoint.sh`
+- `docker/nginx/default.conf`
 
 ### Langkah deploy di VM
 
@@ -216,7 +218,7 @@ docker compose --env-file .env.docker logs -f web
 - `storage:link` juga dijalankan otomatis saat boot container.
 - Data MySQL dan folder `storage` disimpan di Docker volume supaya tidak hilang saat recreate container.
 - Default expose web ada di host port `8003`. Kalau ingin ganti, ubah `APP_PORT` di `.env.docker`.
-- Database MySQL hanya dipakai di internal Docker network dan tidak expose port ke host, jadi tidak bentrok dengan database container lain seperti `3307` atau `3308`.
+- Database MariaDB hanya dipakai di internal Docker network dan tidak expose port ke host, jadi tidak bentrok dengan database container lain seperti `3307` atau `3308`.
 
 ### Update aplikasi
 
