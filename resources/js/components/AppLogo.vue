@@ -4,16 +4,16 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
 
 <template>
     <div
-        class="flex aspect-square size-9 items-center justify-center rounded-2xl bg-sidebar-primary text-sidebar-primary-foreground shadow-sm"
+        class="flex aspect-square size-10 items-center justify-center rounded-xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 shadow-sm dark:border-slate-700 dark:from-slate-800 dark:to-slate-900"
     >
-        <AppLogoIcon class="size-5 fill-current text-white dark:text-black" />
+        <AppLogoIcon class="size-6 drop-shadow-sm" />
     </div>
-    <div class="ml-2 grid flex-1 text-left text-sm">
-        <span class="truncate font-display text-sm font-bold tracking-tight">
+    <div class="ml-3 grid flex-1 text-left">
+        <span class="truncate font-display text-base font-bold tracking-tight text-slate-900 dark:text-white">
             Prikotes
         </span>
-        <span class="truncate text-xs text-muted-foreground">
-            Simulasi Psikotes Polri
+        <span class="truncate text-[0.65rem] font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            Psikotes Polri
         </span>
     </div>
 </template>
