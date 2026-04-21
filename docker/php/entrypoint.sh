@@ -12,10 +12,8 @@ mkdir -p \
     /var/www/html/storage/framework/views \
     /var/www/html/storage/logs
 
-if [ ! -f /var/www/html/public/index.php ]; then
-    echo "==> [Prikotes] Menyalin file public ke volume bersama..."
-    cp -r /public-init/. /var/www/html/public/
-fi
+echo "==> [Prikotes] Sinkronisasi file public ke volume bersama..."
+cp -r /public-init/. /var/www/html/public/
 
 chown -R www-data:www-data \
     /var/www/html/bootstrap/cache \
