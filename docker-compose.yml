@@ -1,3 +1,5 @@
+name: prikotes
+
 services:
   web:
     build:
@@ -8,7 +10,7 @@ services:
     env_file:
       - ${APP_ENV_FILE:-.env.docker}
     ports:
-      - "${APP_PORT:-80}:80"
+      - "${APP_PORT:-8003}:80"
     depends_on:
       db:
         condition: service_healthy

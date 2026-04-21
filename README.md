@@ -191,7 +191,7 @@ docker run --rm php:8.3-cli php -r "echo 'base64:'.base64_encode(random_bytes(32
 5. Sesuaikan nilai penting di `.env.docker`:
 
 - `APP_URL`
-- `APP_PORT`
+- `APP_PORT` default Docker adalah `8003` agar tidak bentrok dengan contoh stack lain yang memakai `8001` dan `8002`.
 - `DB_DATABASE`
 - `DB_USERNAME`
 - `DB_PASSWORD`
@@ -215,7 +215,8 @@ docker compose --env-file .env.docker logs -f web
 - Migrate database dijalankan otomatis saat container `web` start.
 - `storage:link` juga dijalankan otomatis saat boot container.
 - Data MySQL dan folder `storage` disimpan di Docker volume supaya tidak hilang saat recreate container.
-- Default expose web ada di port `80`. Kalau ingin ganti, ubah `APP_PORT` di `.env.docker`.
+- Default expose web ada di host port `8003`. Kalau ingin ganti, ubah `APP_PORT` di `.env.docker`.
+- Database MySQL hanya dipakai di internal Docker network dan tidak expose port ke host, jadi tidak bentrok dengan database container lain seperti `3307` atau `3308`.
 
 ### Update aplikasi
 
