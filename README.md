@@ -6,7 +6,7 @@ Platform belajar psikotes Polri berbasis Laravel 13, Inertia, Vue 3, TypeScript,
 
 Default setup lokal sekarang memakai SQLite supaya bootstrap paling cepat dan tidak perlu MySQL dulu.
 
-- PHP `^8.3`
+- PHP `^8.4`
 - Composer
 - Node.js `^22`
 - npm
@@ -158,7 +158,7 @@ npm run build
 
 Stack Docker yang disiapkan di repo ini memakai:
 
-- `app`: PHP 8.3 FPM + Laravel app
+- `app`: PHP 8.4 FPM + Laravel app
 - `web`: Nginx 1.27
 - `db`: MariaDB 10.11
 
