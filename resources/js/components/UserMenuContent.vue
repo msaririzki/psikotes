@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
 import { LogOut, Settings } from 'lucide-vue-next';
+import ThemeToggle from '@/components/ThemeToggle.vue';
 import {
     DropdownMenuGroup,
     DropdownMenuItem,
@@ -39,6 +40,10 @@ defineProps<Props>();
         </DropdownMenuItem>
     </DropdownMenuGroup>
     <DropdownMenuSeparator />
+    <div class="px-1 py-2">
+        <ThemeToggle class="w-full" />
+    </div>
+    <DropdownMenuSeparator />
     <DropdownMenuItem :as-child="true">
         <Link
             class="block w-full cursor-pointer"
@@ -52,5 +57,3 @@ defineProps<Props>();
         </Link>
     </DropdownMenuItem>
 </template>
-
-

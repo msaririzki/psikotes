@@ -22,6 +22,7 @@ class SaveSimulationProgressRequest extends FormRequest
             'answers.*' => ['nullable', 'integer', 'exists:question_options,id'],
             'flags' => ['nullable', 'array'],
             'flags.*' => ['boolean'],
+            'silent' => ['nullable', 'boolean'],
         ];
     }
 
@@ -34,6 +35,7 @@ class SaveSimulationProgressRequest extends FormRequest
             'flags' => collect($this->validated('flags', []))
                 ->mapWithKeys(fn ($value, $key): array => [(int) $key => (bool) $value])
                 ->all(),
+            'silent' => (bool) $this->validated('silent', false),
         ];
     }
 }

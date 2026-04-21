@@ -133,7 +133,7 @@ class HistoryTimelineService
                 };
             });
 
-        return $progresses->merge($attempts)
+        return $progresses->toBase()->merge($attempts->toBase())
             ->filter(fn (array $item): bool => filled($item['occurred_at']));
     }
 

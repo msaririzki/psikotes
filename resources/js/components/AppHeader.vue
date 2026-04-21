@@ -20,6 +20,7 @@ import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import ThemeToggle from '@/components/ThemeToggle.vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -76,11 +77,13 @@ const mainNavItems = computed<NavItem[]>(() => {
         },
         ...(auth.value.user.onboarding_completed
             ? []
-            : [{
-                title: 'Orientasi',
-                href: '/onboarding',
-                icon: Rocket,
-            }]),
+            : [
+                  {
+                      title: 'Orientasi',
+                      href: '/onboarding',
+                      icon: Rocket,
+                  },
+              ]),
         {
             title: 'Belajar',
             href: '/learn',
@@ -257,6 +260,8 @@ const mainNavItems = computed<NavItem[]>(() => {
                 </div>
 
                 <div class="ml-auto flex items-center space-x-2">
+                    <ThemeToggle compact />
+
                     <TooltipProvider :delay-duration="0">
                         <Tooltip>
                             <TooltipTrigger :as-child="true">
@@ -319,4 +324,3 @@ const mainNavItems = computed<NavItem[]>(() => {
         </div>
     </div>
 </template>
-

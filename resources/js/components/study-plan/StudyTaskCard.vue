@@ -14,21 +14,24 @@ import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import type { StudyTask } from '@/types';
 
-const props = withDefaults(defineProps<{
-    task: StudyTask;
-    compact?: boolean;
-    actionable?: boolean;
-    redirectTo?: string;
-}>(), {
-    compact: false,
-    actionable: false,
-    redirectTo: '/study-plan',
-});
+const props = withDefaults(
+    defineProps<{
+        task: StudyTask;
+        compact?: boolean;
+        actionable?: boolean;
+        redirectTo?: string;
+    }>(),
+    {
+        compact: false,
+        actionable: false,
+        redirectTo: '/study-plan',
+    },
+);
 
 const toneMap = {
     learn: 'bg-sky-50 text-sky-800 ring-sky-200',
     practice: 'bg-emerald-50 text-emerald-800 ring-emerald-200',
-    simulation: 'bg-slate-100 text-slate-800 ring-slate-200',
+    simulation: 'bg-muted text-foreground ring-border',
     review: 'bg-amber-50 text-amber-800 ring-amber-200',
 };
 
@@ -40,7 +43,7 @@ const iconMap = {
 };
 
 const statusToneMap = {
-    pending: 'bg-slate-100 text-slate-700 ring-slate-200',
+    pending: 'bg-muted text-muted-foreground ring-border',
     snoozed: 'bg-amber-50 text-amber-800 ring-amber-200',
     rescheduled: 'bg-violet-50 text-violet-800 ring-violet-200',
     completed: 'bg-emerald-50 text-emerald-800 ring-emerald-200',
@@ -88,8 +91,12 @@ function openScheduler(mode: 'snooze' | 'reschedule') {
 </script>
 
 <template>
-    <div class="rounded-[1.6rem] border border-[#dfe8ef] bg-white/95 p-5 shadow-sm">
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+    <div
+        class="rounded-[1.35rem] border border-[transparent] border-border/40 bg-card p-4 sm:rounded-[1.6rem] sm:p-5"
+    >
+        <div
+            class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between"
+        >
             <div class="space-y-3">
                 <div class="flex flex-wrap items-center gap-2">
                     <span
@@ -105,30 +112,36 @@ function openScheduler(mode: 'snooze' | 'reschedule') {
                     >
                         {{ task.status_label }}
                     </span>
-                    <span class="rounded-full bg-[#f8fbff] px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-[#e6edf3]">
+                    <span
+                        class="rounded-full bg-[transparent] px-3 py-1 text-xs font-semibold text-muted-foreground ring-1 ring-[transparent]"
+                    >
                         {{ task.priority_label || 'Recommended next' }}
                     </span>
-                    <span class="text-xs text-slate-500">
+                    <span class="text-xs text-muted-foreground">
                         {{ task.due_label }}
                     </span>
                 </div>
 
                 <div>
-                    <p class="font-display text-2xl font-bold tracking-tight text-slate-950">
+                    <p
+                        class="font-display text-xl font-bold tracking-tight text-foreground sm:text-2xl"
+                    >
                         {{ task.title }}
                     </p>
-                    <p class="mt-2 text-sm leading-6 text-slate-600">
+                    <p class="mt-2 text-sm leading-6 text-muted-foreground">
                         {{ task.description }}
                     </p>
                 </div>
 
-                <p class="text-xs text-slate-500">
+                <p class="text-xs text-muted-foreground">
                     Alasan: {{ task.reason }}
                 </p>
-                <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                <div
+                    class="flex flex-wrap items-center gap-2 text-xs text-muted-foreground"
+                >
                     <span
                         v-if="task.cadence.label"
-                        class="rounded-full bg-[#f8fbff] px-3 py-1 ring-1 ring-[#e6edf3]"
+                        class="rounded-full bg-[transparent] px-3 py-1 ring-1 ring-[transparent]"
                     >
                         {{ task.cadence.label }}
                     </span>
@@ -141,7 +154,7 @@ function openScheduler(mode: 'snooze' | 'reschedule') {
                     </span>
                     <span
                         v-if="task.outcome_impact?.readiness_changed"
-                        class="rounded-full bg-[#fff5f5] px-3 py-1 text-[#b91c1c] ring-1 ring-[#fecaca]"
+                        class="rounded-full bg-[#fff5f5] px-3 py-1 text-[var(--primary)] ring-1 ring-[#fecaca]"
                     >
                         Kesiapan berubah
                     </span>
@@ -155,16 +168,20 @@ function openScheduler(mode: 'snooze' | 'reschedule') {
             </div>
 
             <div class="flex flex-col items-start gap-3 lg:min-w-[240px]">
-                <div class="rounded-[1.25rem] bg-[#f8fbff] px-4 py-3 ring-1 ring-[#e6edf3]">
-                    <p class="text-sm text-slate-500">Skor prioritas</p>
-                    <p class="mt-1 text-2xl font-semibold text-slate-950">
+                <div
+                    class="rounded-[1.25rem] bg-[transparent] px-4 py-3 ring-1 ring-[transparent]"
+                >
+                    <p class="text-sm text-muted-foreground">Skor prioritas</p>
+                    <p class="mt-1 text-2xl font-semibold text-foreground">
                         {{ task.priority_score }}
                     </p>
                 </div>
-                <div class="flex flex-wrap gap-2">
+                <div
+                    class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap"
+                >
                     <Link
                         :href="task.action_href"
-                        class="inline-flex items-center gap-2 rounded-full bg-[#0f172a] px-4 py-2 text-sm font-medium text-white hover:bg-[#111827]"
+                        class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--primary)] px-4 py-2 text-sm font-medium text-white hover:bg-[#111827] sm:w-auto"
                     >
                         {{ task.action_label }}
                         <ArrowRight class="size-4" />
@@ -172,7 +189,7 @@ function openScheduler(mode: 'snooze' | 'reschedule') {
                     <Button
                         v-if="canExecute"
                         type="button"
-                        class="rounded-full bg-[#b91c1c] text-white hover:bg-[#991b1b]"
+                        class="w-full rounded-full bg-[var(--primary)] text-white hover:bg-[#991b1b] sm:w-auto"
                         :disabled="form.processing"
                         @click="runAction('done')"
                     >
@@ -185,10 +202,13 @@ function openScheduler(mode: 'snooze' | 'reschedule') {
 
         <div
             v-if="canExecute && !compact"
-            class="mt-5 border-t border-[#edf2f7] pt-5"
+            class="mt-5 border-t border-[transparent] pt-5"
         >
-            <div v-if="schedulerMode" class="space-y-3 rounded-2xl bg-[#fbfdff] p-4 ring-1 ring-[#e6edf3]">
-                <p class="text-sm font-medium text-slate-900">
+            <div
+                v-if="schedulerMode"
+                class="space-y-3 rounded-2xl bg-[transparent] p-3 ring-1 ring-[transparent] sm:p-4"
+            >
+                <p class="text-sm font-medium text-foreground">
                     {{
                         schedulerMode === 'snooze'
                             ? 'Tunda task ke tanggal baru'
@@ -204,7 +224,7 @@ function openScheduler(mode: 'snooze' | 'reschedule') {
                     <div class="flex gap-2">
                         <Button
                             type="button"
-                            class="rounded-2xl bg-[#0f172a] text-white hover:bg-[#111827]"
+                            class="flex-1 rounded-2xl bg-[var(--primary)] text-white hover:bg-[#111827] sm:flex-none"
                             :disabled="form.processing"
                             @click="runAction(schedulerMode)"
                         >
@@ -213,7 +233,7 @@ function openScheduler(mode: 'snooze' | 'reschedule') {
                         <Button
                             type="button"
                             variant="outline"
-                            class="rounded-2xl"
+                            class="flex-1 rounded-2xl sm:flex-none"
                             @click="schedulerMode = null"
                         >
                             Batal
@@ -223,11 +243,11 @@ function openScheduler(mode: 'snooze' | 'reschedule') {
                 <InputError :message="form.errors.scheduled_for" />
             </div>
 
-            <div v-else class="flex flex-wrap gap-2">
+            <div v-else class="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                 <Button
                     type="button"
                     variant="outline"
-                    class="rounded-2xl"
+                    class="w-full rounded-2xl sm:w-auto"
                     :disabled="form.processing"
                     @click="openScheduler('snooze')"
                 >
@@ -237,7 +257,7 @@ function openScheduler(mode: 'snooze' | 'reschedule') {
                 <Button
                     type="button"
                     variant="outline"
-                    class="rounded-2xl"
+                    class="w-full rounded-2xl sm:w-auto"
                     :disabled="form.processing"
                     @click="openScheduler('reschedule')"
                 >
@@ -249,16 +269,16 @@ function openScheduler(mode: 'snooze' | 'reschedule') {
 
         <div
             v-if="!compact && task.history.length > 0"
-            class="mt-5 border-t border-[#edf2f7] pt-5"
+            class="mt-5 border-t border-[transparent] pt-5"
         >
-            <p class="text-sm font-medium text-slate-900">Riwayat eksekusi</p>
+            <p class="text-sm font-medium text-foreground">Riwayat eksekusi</p>
             <div class="mt-3 space-y-2">
                 <div
                     v-for="entry in task.history.slice(0, 3)"
                     :key="`${entry.event_type}-${entry.happened_at}`"
-                    class="rounded-2xl bg-[#fbfdff] px-4 py-3 text-sm text-slate-600 ring-1 ring-[#e6edf3]"
+                    class="rounded-2xl bg-[transparent] px-3 py-3 text-sm text-muted-foreground ring-1 ring-[transparent] sm:px-4"
                 >
-                    <p class="font-medium text-slate-900">
+                    <p class="font-medium text-foreground">
                         {{ entry.event_label }}
                     </p>
                     <p class="mt-1">{{ entry.description }}</p>
@@ -267,5 +287,3 @@ function openScheduler(mode: 'snooze' | 'reschedule') {
         </div>
     </div>
 </template>
-
-

@@ -154,9 +154,87 @@ npm run lint:check
 npm run build
 ```
 
+## Docker deploy untuk server
+
+Stack Docker yang disiapkan di repo ini memakai:
+
+- `web`: Apache + PHP 8.3 + Laravel app
+- `db`: MySQL 8.4
+
+Targetnya adalah deploy sederhana dari VM Linux, termasuk kalau kamu login ke VM sebagai `root`.
+
+### File yang dipakai
+
+- `Dockerfile`
+- `docker-compose.yml`
+- `.env.docker.example`
+- `docker/entrypoint.sh`
+
+### Langkah deploy di VM
+
+1. Clone repo ke server.
+2. Masuk ke folder project.
+3. Copy file env docker:
+
+```bash
+cp .env.docker.example .env.docker
+```
+
+4. Generate `APP_KEY` lalu tempel ke `.env.docker`.
+
+Kalau di VM belum ada PHP lokal, pakai Docker:
+
+```bash
+docker run --rm php:8.3-cli php -r "echo 'base64:'.base64_encode(random_bytes(32)).PHP_EOL;"
+```
+
+5. Sesuaikan nilai penting di `.env.docker`:
+
+- `APP_URL`
+- `APP_PORT`
+- `DB_DATABASE`
+- `DB_USERNAME`
+- `DB_PASSWORD`
+- `DB_ROOT_PASSWORD`
+
+6. Jalankan deploy:
+
+```bash
+docker compose --env-file .env.docker up -d --build
+```
+
+7. Cek status:
+
+```bash
+docker compose --env-file .env.docker ps
+docker compose --env-file .env.docker logs -f web
+```
+
+### Catatan deploy
+
+- Migrate database dijalankan otomatis saat container `web` start.
+- `storage:link` juga dijalankan otomatis saat boot container.
+- Data MySQL dan folder `storage` disimpan di Docker volume supaya tidak hilang saat recreate container.
+- Default expose web ada di port `80`. Kalau ingin ganti, ubah `APP_PORT` di `.env.docker`.
+
+### Update aplikasi
+
+Kalau code di server berubah:
+
+```bash
+docker compose --env-file .env.docker up -d --build
+```
+
+Kalau ingin menjalankan command Laravel manual:
+
+```bash
+docker compose --env-file .env.docker exec web php artisan about
+docker compose --env-file .env.docker exec web php artisan migrate:status
+```
+
 ## Manual smoke test
 
 Checklist manual tersedia di:
 
-- [docs/manual-smoke-test.md](</E:/projeck git/Prikotes/docs/manual-smoke-test.md>)
+- [docs/manual-smoke-test.md](docs/manual-smoke-test.md)
 # psikotes  

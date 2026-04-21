@@ -21,7 +21,7 @@ function labelText(label: string): string {
         <template v-for="link in links" :key="`${link.label}-${link.url}`">
             <span
                 v-if="!link.url"
-                class="inline-flex h-10 items-center rounded-2xl border border-dashed border-slate-200 px-4 text-sm text-slate-400"
+                class="inline-flex h-10 items-center rounded-2xl border border-dashed border-border px-4 text-sm text-muted-foreground"
             >
                 {{ labelText(link.label) }}
             </span>
@@ -33,7 +33,7 @@ function labelText(label: string): string {
                     cn(
                         link.active
                             ? 'border-[#7f1d1d] bg-[#7f1d1d] text-white'
-                            : 'border-slate-200 bg-white text-slate-600 hover:border-[#d3b4a6] hover:bg-[#fff7f3]',
+                            : 'border-border bg-card text-muted-foreground hover:border-primary/40 hover:bg-muted/60 hover:text-foreground',
                     )
                 "
             >

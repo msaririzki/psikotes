@@ -9,11 +9,13 @@ defineProps<{
 </script>
 
 <template>
-    <Card class="rounded-[1.6rem] border-[#dfe8ef] bg-white/95 shadow-sm">
+    <Card class="rounded-[1.6rem] border-border/60 bg-card shadow-sm">
         <CardContent class="space-y-2 p-5">
-            <p class="text-sm text-slate-500">{{ title }}</p>
-            <p class="text-3xl font-semibold text-slate-950">{{ value }}</p>
-            <p v-if="helper" class="text-sm text-slate-500">{{ helper }}</p>
+            <p class="text-sm text-muted-foreground">{{ title }}</p>
+            <p class="text-3xl font-semibold text-foreground">{{ value }}</p>
+            <p v-if="helper" class="text-sm text-muted-foreground">
+                {{ helper }}
+            </p>
         </CardContent>
     </Card>
 </template>

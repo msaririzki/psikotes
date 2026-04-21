@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { ArrowRight, BrainCircuit, ChartColumnBig, Sparkles, TrendingUp } from 'lucide-vue-next';
+import {
+    ArrowRight,
+    BrainCircuit,
+    ChartColumnBig,
+    Sparkles,
+    TrendingUp,
+} from 'lucide-vue-next';
 import InsightCard from '@/components/progress/InsightCard.vue';
 import PerformanceTrendChart from '@/components/progress/PerformanceTrendChart.vue';
 import RecommendationCard from '@/components/progress/RecommendationCard.vue';
@@ -8,7 +14,12 @@ import SubtestAnalyticsCard from '@/components/progress/SubtestAnalyticsCard.vue
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { dashboard } from '@/routes';
-import type { ProgressSummary, ProgressTrendPoint, RecommendationItem, SubtestAnalyticsItem } from '@/types';
+import type {
+    ProgressSummary,
+    ProgressTrendPoint,
+    RecommendationItem,
+    SubtestAnalyticsItem,
+} from '@/types';
 
 defineOptions({
     layout: {
@@ -36,25 +47,38 @@ defineProps<{
 
     <div class="flex flex-1 flex-col gap-6 p-4">
         <section
-            class="overflow-hidden rounded-[2rem] border border-[#dbe6ee] bg-[radial-gradient(circle_at_top_left,_rgba(185,28,28,0.14),_transparent_32%),linear-gradient(135deg,_#f8fbff_0%,_#eef5fb_48%,_#ffffff_100%)] p-6 shadow-sm"
+            class="overflow-hidden rounded-[2rem] border border-border/60 bg-[radial-gradient(circle_at_top_left,_rgba(185,28,28,0.14),_transparent_32%),linear-gradient(135deg,_#f8fbff_0%,_#eef5fb_48%,_#ffffff_100%)] p-6 shadow-sm dark:bg-[radial-gradient(circle_at_top_left,_rgba(185,28,28,0.18),_transparent_32%),linear-gradient(135deg,_#101826_0%,_#0b1220_48%,_#050816_100%)]"
         >
             <div class="grid gap-6 xl:grid-cols-[1.1fr,0.9fr] xl:items-end">
                 <div class="space-y-4">
-                    <div class="inline-flex items-center rounded-full bg-[#b91c1c] px-4 py-2 text-xs font-semibold tracking-[0.18em] text-white uppercase">
+                    <div
+                        class="inline-flex items-center rounded-full bg-[#b91c1c] px-4 py-2 text-xs font-semibold tracking-[0.18em] text-white uppercase"
+                    >
                         Progres Dasbor
                     </div>
                     <div>
-                        <h1 class="font-display text-4xl font-bold tracking-tight text-slate-950">
-                            Insight yang menyatukan belajar, latihan, dan simulasi.
+                        <h1
+                            class="font-display text-4xl font-bold tracking-tight text-foreground"
+                        >
+                            Insight yang menyatukan belajar, latihan, dan
+                            simulasi.
                         </h1>
-                        <p class="mt-3 max-w-3xl text-base leading-7 text-slate-600">
-                            Dasbor ini tidak hanya menampilkan angka mentah. Sistem mulai membaca histori nyata untuk menunjukkan area kuat, area lemah, tren performa, dan rekomendasi langkah berikutnya.
+                        <p
+                            class="mt-3 max-w-3xl text-base leading-7 text-muted-foreground"
+                        >
+                            Dasbor ini tidak hanya menampilkan angka mentah.
+                            Sistem mulai membaca histori nyata untuk menunjukkan
+                            area kuat, area lemah, tren performa, dan
+                            rekomendasi langkah berikutnya.
                         </p>
                     </div>
                 </div>
 
                 <div class="flex flex-wrap gap-3">
-                    <Button as-child class="rounded-2xl bg-[#0f172a] text-white hover:bg-[#111827]">
+                    <Button
+                        as-child
+                        class="rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90"
+                    >
                         <Link href="/history">
                             Buka pusat riwayat
                             <ArrowRight class="ml-2 size-4" />
@@ -91,7 +115,9 @@ defineProps<{
         </section>
 
         <section class="grid gap-6 xl:grid-cols-[1.05fr,0.95fr]">
-            <Card class="rounded-[1.75rem] border-[#dfe8ef] bg-white/95 shadow-sm">
+            <Card
+                class="rounded-[1.75rem] border-[#dfe8ef] bg-white/95 shadow-sm"
+            >
                 <CardHeader>
                     <CardTitle class="flex items-center gap-2">
                         <TrendingUp class="size-5 text-[#b91c1c]" />
@@ -104,20 +130,29 @@ defineProps<{
             </Card>
 
             <div class="space-y-5">
-                <Card class="rounded-[1.75rem] border-[#dfe8ef] bg-white/95 shadow-sm">
+                <Card
+                    class="rounded-[1.75rem] border-[#dfe8ef] bg-white/95 shadow-sm"
+                >
                     <CardHeader>
                         <CardTitle class="flex items-center gap-2">
                             <Sparkles class="size-5 text-[#b91c1c]" />
                             Area terkuat
                         </CardTitle>
                     </CardHeader>
-                    <CardContent v-if="insights.strongest_area" class="space-y-3 text-sm text-slate-600">
+                    <CardContent
+                        v-if="insights.strongest_area"
+                        class="space-y-3 text-sm text-slate-600"
+                    >
                         <p class="font-semibold text-slate-950">
                             {{ insights.strongest_area.subtest_name }}
                         </p>
                         <p>
-                            Akurasi rata-rata {{ insights.strongest_area.average_accuracy }}%
-                            dari {{ insights.strongest_area.attempts_count }} attempt.
+                            Akurasi rata-rata
+                            {{ insights.strongest_area.average_accuracy }}% dari
+                            {{
+                                insights.strongest_area.attempts_count
+                            }}
+                            attempt.
                         </p>
                     </CardContent>
                     <CardContent v-else class="text-sm text-slate-500">
@@ -125,20 +160,26 @@ defineProps<{
                     </CardContent>
                 </Card>
 
-                <Card class="rounded-[1.75rem] border-[#dfe8ef] bg-white/95 shadow-sm">
+                <Card
+                    class="rounded-[1.75rem] border-[#dfe8ef] bg-white/95 shadow-sm"
+                >
                     <CardHeader>
                         <CardTitle class="flex items-center gap-2">
                             <BrainCircuit class="size-5 text-[#b91c1c]" />
                             Area terlemah
                         </CardTitle>
                     </CardHeader>
-                    <CardContent v-if="insights.weakest_area" class="space-y-3 text-sm text-slate-600">
+                    <CardContent
+                        v-if="insights.weakest_area"
+                        class="space-y-3 text-sm text-slate-600"
+                    >
                         <p class="font-semibold text-slate-950">
                             {{ insights.weakest_area.subtest_name }}
                         </p>
                         <p>
-                            Akurasi rata-rata {{ insights.weakest_area.average_accuracy }}%
-                            dengan blank rate {{ insights.weakest_area.blank_rate }}%.
+                            Akurasi rata-rata
+                            {{ insights.weakest_area.average_accuracy }}% dengan
+                            blank rate {{ insights.weakest_area.blank_rate }}%.
                         </p>
                     </CardContent>
                     <CardContent v-else class="text-sm text-slate-500">
@@ -151,7 +192,9 @@ defineProps<{
         <section class="space-y-5">
             <div class="flex items-center gap-2">
                 <ChartColumnBig class="size-5 text-[#b91c1c]" />
-                <h2 class="font-display text-2xl font-bold tracking-tight text-slate-950">
+                <h2
+                    class="font-display text-2xl font-bold tracking-tight text-slate-950"
+                >
                     Mesin rekomendasi dasar
                 </h2>
             </div>
@@ -169,7 +212,9 @@ defineProps<{
                 class="rounded-[1.75rem] border-[#dfe8ef] bg-white/95 shadow-sm"
             >
                 <CardContent class="p-6 text-sm text-slate-500">
-                    Belum ada rekomendasi yang cukup kuat. Tambahkan riwayat belajar, latihan, atau simulasi agar sistem bisa memberi arahan yang lebih presisi.
+                    Belum ada rekomendasi yang cukup kuat. Tambahkan riwayat
+                    belajar, latihan, atau simulasi agar sistem bisa memberi
+                    arahan yang lebih presisi.
                 </CardContent>
             </Card>
         </section>
@@ -177,7 +222,9 @@ defineProps<{
         <section class="space-y-5">
             <div class="flex items-center gap-2">
                 <ChartColumnBig class="size-5 text-[#b91c1c]" />
-                <h2 class="font-display text-2xl font-bold tracking-tight text-slate-950">
+                <h2
+                    class="font-display text-2xl font-bold tracking-tight text-slate-950"
+                >
                     Breakdown per subtes
                 </h2>
             </div>
@@ -199,6 +246,3 @@ defineProps<{
         </section>
     </div>
 </template>
-
-
-

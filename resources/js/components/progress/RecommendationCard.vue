@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { ArrowRight, BrainCircuit, Sparkles, Target, TriangleAlert } from 'lucide-vue-next';
+import {
+    ArrowRight,
+    BrainCircuit,
+    Sparkles,
+    Target,
+    TriangleAlert,
+} from 'lucide-vue-next';
 import type { RecommendationItem } from '@/types';
 
 defineProps<{
@@ -8,10 +14,12 @@ defineProps<{
 }>();
 
 const toneClass = {
-    warning: 'border-amber-200 bg-amber-50 text-amber-900',
-    neutral: 'border-slate-200 bg-slate-50 text-slate-900',
-    success: 'border-emerald-200 bg-emerald-50 text-emerald-900',
-    accent: 'border-sky-200 bg-sky-50 text-sky-900',
+    warning:
+        'border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200',
+    neutral: 'border-border bg-muted/70 text-foreground',
+    success:
+        'border-emerald-200 bg-emerald-50 text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-200',
+    accent: 'border-sky-200 bg-sky-50 text-sky-900 dark:border-sky-500/30 dark:bg-sky-500/10 dark:text-sky-200',
 };
 
 const iconMap = {
@@ -41,7 +49,7 @@ const iconMap = {
                 <p class="text-xs opacity-80">{{ item.reason }}</p>
                 <Link
                     :href="item.action_href"
-                    class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-950 ring-1 ring-black/5 transition hover:bg-slate-100"
+                    class="inline-flex items-center gap-2 rounded-full bg-background px-4 py-2 text-sm font-medium text-foreground ring-1 ring-border/60 transition hover:bg-muted"
                 >
                     {{ item.action_label }}
                     <ArrowRight class="size-4" />

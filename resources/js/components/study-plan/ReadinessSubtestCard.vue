@@ -13,8 +13,12 @@ const toneMap: Record<ReadinessSubtestProgress['state'], string> = {
 </script>
 
 <template>
-    <div class="rounded-[1.45rem] border border-[#dfe8ef] bg-white/95 p-5 shadow-sm">
-        <div class="flex items-start justify-between gap-3">
+    <div
+        class="rounded-[1.25rem] border border-[transparent] border-border/40 bg-card p-4 sm:rounded-[1.45rem] sm:p-5"
+    >
+        <div
+            class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
+        >
             <div class="space-y-2">
                 <span
                     class="inline-flex rounded-full px-3 py-1 text-xs font-semibold ring-1"
@@ -23,18 +27,20 @@ const toneMap: Record<ReadinessSubtestProgress['state'], string> = {
                     {{ item.label }}
                 </span>
                 <div>
-                    <p class="font-semibold text-slate-950">
+                    <p class="font-semibold text-foreground">
                         {{ item.subtest_name }}
                     </p>
-                    <p class="mt-2 text-sm leading-6 text-slate-600">
+                    <p class="mt-2 text-sm leading-6 text-muted-foreground">
                         {{ item.reason }}
                     </p>
                 </div>
             </div>
 
             <div class="text-right">
-                <p class="text-sm text-slate-500">Kesiapan</p>
-                <p class="mt-1 text-2xl font-semibold text-slate-950">
+                <p class="text-sm text-muted-foreground">Kesiapan</p>
+                <p
+                    class="mt-1 text-xl font-semibold text-foreground sm:text-2xl"
+                >
                     {{ item.progress }}%
                 </p>
             </div>
@@ -42,12 +48,9 @@ const toneMap: Record<ReadinessSubtestProgress['state'], string> = {
 
         <div class="mt-4 h-2 overflow-hidden rounded-full bg-slate-200">
             <div
-                class="h-full rounded-full bg-gradient-to-r from-[#b91c1c] to-[#0f172a]"
+                class="h-full rounded-full bg-gradient-to-r from-[var(--primary)] to-[var(--primary)]"
                 :style="{ width: `${item.progress}%` }"
             />
         </div>
     </div>
 </template>
-
-
-

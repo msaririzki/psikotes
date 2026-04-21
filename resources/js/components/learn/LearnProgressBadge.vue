@@ -10,11 +10,11 @@ const props = defineProps<{
 
 const badgeClass = computed(() =>
     cn('rounded-full border px-3 py-1 text-xs font-semibold', {
-        'border-slate-200 bg-slate-100 text-slate-700':
+        'border-border bg-muted text-muted-foreground':
             props.status === 'not_started',
-        'border-amber-200 bg-amber-100 text-amber-700':
+        'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300':
             props.status === 'in_progress',
-        'border-emerald-200 bg-emerald-100 text-emerald-700':
+        'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300':
             props.status === 'completed',
     }),
 );

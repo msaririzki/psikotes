@@ -91,6 +91,63 @@ test('user can start simulation save progress submit and view result', function 
     expect($attempt->result_summary)->toBeArray();
 });
 
+test('simulation progress autosave keeps latest selected answer', function () {
+    [$simulationPackage] = createSimulationFixture('simulation-autosave', 1);
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->post(route('simulations.attempts.store', ['simulationPackage' => $simulationPackage->slug]))
+        ->assertRedirect();
+
+    $attempt = $user->attempts()->latest('id')->first();
+    $attempt->load('attemptQuestions.question.options');
+
+    $attemptQuestion = $attempt->attemptQuestions->first();
+    $question = $attemptQuestion->question;
+    $wrongOption = $question->options->firstWhere('is_correct', false);
+    $correctOption = $question->options->firstWhere('is_correct', true);
+
+    $this->actingAs($user)
+        ->postJson(route('simulations.attempts.progress', $attempt), [
+            'answers' => [
+                $question->id => $wrongOption->id,
+            ],
+            'flags' => [
+                $question->id => false,
+            ],
+            'silent' => true,
+        ])
+        ->assertOk()
+        ->assertJsonPath('submitted', false);
+
+    $this->assertDatabaseHas('attempt_answers', [
+        'attempt_id' => $attempt->id,
+        'question_id' => $question->id,
+        'selected_option_id' => $wrongOption->id,
+        'is_flagged' => false,
+    ]);
+
+    $this->actingAs($user)
+        ->postJson(route('simulations.attempts.progress', $attempt), [
+            'answers' => [
+                $question->id => $correctOption->id,
+            ],
+            'flags' => [
+                $question->id => true,
+            ],
+            'silent' => true,
+        ])
+        ->assertOk()
+        ->assertJsonPath('submitted', false);
+
+    $this->assertDatabaseHas('attempt_answers', [
+        'attempt_id' => $attempt->id,
+        'question_id' => $question->id,
+        'selected_option_id' => $correctOption->id,
+        'is_flagged' => true,
+    ]);
+});
+
 function createSimulationFixture(string $slugPrefix, int $questionCount): array
 {
     $category = Category::query()->create([
