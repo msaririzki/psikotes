@@ -93,8 +93,16 @@ const form = useForm({
     ) as Record<number, boolean>,
 });
 
+// Sementara sembunyikan soal bertipe missing-pattern (gambar masih dalam pengembangan UI).
+// Soal-soal ini tetap ada di form dan akan dikirim sebagai jawaban kosong.
+const visibleQuestions = computed(() =>
+    props.attempt.questions.filter(
+        (q) => !q.question_image?.includes('/missing'),
+    ),
+);
+
 const currentQuestion = computed(
-    () => props.attempt.questions[activeQuestionIndex.value],
+    () => visibleQuestions.value[activeQuestionIndex.value],
 );
 
 const isMissingPatternQuestion = computed(() =>
@@ -397,7 +405,7 @@ onBeforeUnmount(() => {
                             {{ answeredCount }}
                             <span
                                 class="text-[10px] font-normal text-muted-foreground sm:text-xs"
-                                >/ {{ attempt.progress.total_questions }}</span
+                                >/ {{ visibleQuestions.length }}</span
                             >
                         </p>
                     </div>
@@ -647,7 +655,7 @@ onBeforeUnmount(() => {
                                     class="h-12 rounded-[1rem] bg-indigo-600 px-6 font-semibold text-white shadow-md shadow-indigo-500/25 transition-all hover:-translate-y-0.5 hover:bg-indigo-700 hover:shadow-indigo-500/40 sm:flex-none dark:bg-indigo-600 dark:hover:bg-indigo-500"
                                     :disabled="
                                         activeQuestionIndex ===
-                                        attempt.questions.length - 1
+                                        visibleQuestions.length - 1
                                     "
                                     @click="
                                         goToQuestion(activeQuestionIndex + 1)
@@ -731,7 +739,7 @@ onBeforeUnmount(() => {
                             <span
                                 class="text-xs font-normal tracking-normal lowercase"
                                 >{{ answeredCount }}/{{
-                                    attempt.progress.total_questions
+                                    visibleQuestions.length
                                 }}
                                 terjawab</span
                             >
@@ -744,7 +752,7 @@ onBeforeUnmount(() => {
                             class="grid grid-cols-[repeat(auto-fill,minmax(2.35rem,1fr))] gap-2 sm:gap-2.5 xl:grid-cols-5"
                         >
                             <button
-                                v-for="(question, index) in attempt.questions"
+                                v-for="(question, index) in visibleQuestions"
                                 :key="question.id"
                                 type="button"
                                 class="rounded-xl transition-transform hover:scale-105 focus:ring-2 focus:ring-indigo-500 focus:outline-none active:scale-95"
