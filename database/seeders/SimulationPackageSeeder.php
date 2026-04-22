@@ -22,10 +22,10 @@ class SimulationPackageSeeder extends Seeder
 
         $packages = [
             [
-                'title' => 'Simulasi Real Lengkap POLRI 2025',
+                'title' => 'Simulasi Real Lengkap POLRI 2026',
                 'slug' => 'simulasi-real-lengkap-polri-2025',
-                'description' => 'Paket lengkap yang memakai semua soal pilihan ganda dari PDF POLRI 2025.',
-                'instruction' => 'Paket penuh memakai semua soal pilihan ganda dari PDF. Kerjakan dari awal sampai akhir, tandai soal yang masih ragu, dan atur waktu sejak awal.',
+                'description' => 'Paket lengkap untuk persiapan simulasi POLRI 2026, memakai bank soal pilihan ganda tahun sebelumnya.',
+                'instruction' => 'Paket penuh untuk persiapan simulasi POLRI 2026. Kerjakan dari awal sampai akhir, tandai soal yang masih ragu, dan atur waktu sejak awal.',
                 'duration_minutes' => 300,
                 'sort_order' => 1,
                 'is_published' => true,
@@ -39,7 +39,7 @@ class SimulationPackageSeeder extends Seeder
                 ],
             ],
             [
-                'title' => 'Latihan Sedang Akademik POLRI 2025',
+                'title' => 'Latihan Sedang Akademik POLRI 2026',
                 'slug' => 'simulasi-real-akademik-polri-2025',
                 'description' => 'Paket sedang untuk latihan akademik bertahap sebelum masuk ke simulasi penuh.',
                 'instruction' => 'Paket ini mengambil sebagian soal akademik. Cocok untuk latihan harian tanpa waktu sepanjang paket penuh.',
@@ -54,7 +54,7 @@ class SimulationPackageSeeder extends Seeder
                 ],
             ],
             [
-                'title' => 'Latihan Cepat Ketelitian POLRI 2025',
+                'title' => 'Latihan Cepat Ketelitian POLRI 2026',
                 'slug' => 'simulasi-real-kecepatan-polri-2025',
                 'description' => 'Paket cepat untuk melatih hitungan dan ketelitian dalam waktu singkat.',
                 'instruction' => 'Paket ini dibuat untuk latihan cepat. Jangan terlalu lama di satu soal; selesaikan dulu yang pasti lalu kembali ke soal yang ditandai.',
