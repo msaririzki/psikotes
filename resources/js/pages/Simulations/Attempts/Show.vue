@@ -101,6 +101,18 @@ const isMissingPatternQuestion = computed(() =>
     currentQuestion.value?.question_image?.includes('/missing/'),
 );
 
+const missingPatternValues = computed(() => {
+    if (! isMissingPatternQuestion.value) {
+        return [];
+    }
+
+    const match = currentQuestion.value?.question_text.match(
+        /Urutan data:\s*([^.]+)\./i,
+    );
+
+    return match?.[1]?.trim().split(/\s+/).filter(Boolean) ?? [];
+});
+
 const answeredCount = computed(
     () => Object.values(form.answers).filter((value) => value !== null).length,
 );
@@ -483,7 +495,29 @@ onBeforeUnmount(() => {
                             {{ currentQuestion.question_text }}
                         </CardTitle>
                         <div
-                            v-if="currentQuestion.question_image"
+                            v-if="missingPatternValues.length > 0"
+                            class="rounded-[1.25rem] border border-indigo-100 bg-white p-4 shadow-sm sm:p-5 dark:border-indigo-500/20 dark:bg-slate-950"
+                        >
+                            <p
+                                class="text-xs font-bold tracking-widest text-slate-500 uppercase dark:text-slate-400"
+                            >
+                                Urutan data
+                            </p>
+                            <div class="mt-4 flex flex-wrap gap-2 sm:gap-3">
+                                <span
+                                    v-for="(value, index) in missingPatternValues"
+                                    :key="`${currentQuestion.id}-${index}-${value}`"
+                                    class="inline-flex min-h-12 min-w-12 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 px-4 font-mono text-xl font-bold text-slate-900 shadow-sm sm:min-h-14 sm:min-w-14 sm:text-2xl dark:border-white/10 dark:bg-white/5 dark:text-white"
+                                >
+                                    {{ value }}
+                                </span>
+                            </div>
+                        </div>
+                        <div
+                            v-if="
+                                currentQuestion.question_image &&
+                                !isMissingPatternQuestion
+                            "
                             :class="[
                                 'rounded-[1.25rem] border border-border/50 bg-white p-2 shadow-sm sm:p-3 dark:bg-slate-950',
                                 isMissingPatternQuestion

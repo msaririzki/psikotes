@@ -84,6 +84,20 @@ function formatDuration(totalSeconds: number) {
 
     return `${minutes}m ${String(seconds).padStart(2, '0')}s`;
 }
+
+function isMissingPatternQuestion(questionImage: string | null) {
+    return questionImage?.includes('/missing/') ?? false;
+}
+
+function missingPatternValues(questionText: string, questionImage: string | null) {
+    if (! isMissingPatternQuestion(questionImage)) {
+        return [];
+    }
+
+    const match = questionText.match(/Urutan data:\s*([^.]+)\./i);
+
+    return match?.[1]?.trim().split(/\s+/).filter(Boolean) ?? [];
+}
 </script>
 
 <template>
@@ -259,7 +273,39 @@ function formatDuration(totalSeconds: number) {
                                     {{ item.question_text }}
                                 </p>
                                 <div
-                                    v-if="item.question_image"
+                                    v-if="
+                                        missingPatternValues(
+                                            item.question_text,
+                                            item.question_image,
+                                        ).length > 0
+                                    "
+                                    class="rounded-2xl border border-indigo-100 bg-white p-4 shadow-sm"
+                                >
+                                    <p
+                                        class="text-xs font-bold tracking-widest text-slate-500 uppercase"
+                                    >
+                                        Urutan data
+                                    </p>
+                                    <div class="mt-4 flex flex-wrap gap-2">
+                                        <span
+                                            v-for="(value, index) in missingPatternValues(
+                                                item.question_text,
+                                                item.question_image,
+                                            )"
+                                            :key="`${item.id}-${index}-${value}`"
+                                            class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 px-4 font-mono text-lg font-bold text-slate-900 shadow-sm"
+                                        >
+                                            {{ value }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div
+                                    v-if="
+                                        item.question_image &&
+                                        !isMissingPatternQuestion(
+                                            item.question_image,
+                                        )
+                                    "
                                     :class="[
                                         'rounded-2xl border border-[#e7edf2] bg-white p-2 sm:p-3',
                                         item.question_image.includes('/missing/')
