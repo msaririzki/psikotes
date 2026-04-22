@@ -416,6 +416,12 @@ class SimulationSessionService
                     QuestionTypeEnum::MULTIPLE_CHOICE_IMAGE,
                     QuestionTypeEnum::TRUE_FALSE,
                 ])
+                // Sementara kecualikan soal bertipe missing-pattern (UI sedang dikembangkan).
+                // Hapus baris ini setelah UI siap.
+                ->where(function ($query): void {
+                    $query->whereNull('question_image')
+                        ->orWhere('question_image', 'not like', '%/missing%');
+                })
                 ->has('options', '>=', 2)
                 ->whereHas('options', fn (Builder $query) => $query->where('is_correct', true))
                 ->orderBy('id')
