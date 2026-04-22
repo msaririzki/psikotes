@@ -86,7 +86,7 @@ function formatDuration(totalSeconds: number) {
 }
 
 function isMissingPatternQuestion(questionImage: string | null) {
-    return questionImage?.includes('/missing/') ?? false;
+    return questionImage?.includes('/missing') ?? false;
 }
 
 function missingPatternValues(questionText: string, questionImage: string | null) {
@@ -313,8 +313,8 @@ function missingPatternValues(questionText: string, questionImage: string | null
                                         :alt="`Gambar soal ${item.display_order}`"
                                         :class="[
                                             'mx-auto rounded-xl object-contain',
-                                            item.question_image.includes('/missing/')
-                                                ? 'w-[640px] max-w-none sm:w-full sm:max-w-[46rem] sm:max-h-[24rem]'
+                                            isMissingPatternQuestion(item.question_image)
+                                                ? 'w-[11rem] max-w-full sm:w-[13rem]'
                                                 : 'max-h-[38rem] max-w-full',
                                         ]"
                                     />
