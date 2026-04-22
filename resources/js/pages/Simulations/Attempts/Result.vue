@@ -260,12 +260,22 @@ function formatDuration(totalSeconds: number) {
                                 </p>
                                 <div
                                     v-if="item.question_image"
-                                    class="overflow-hidden rounded-2xl border border-[#e7edf2] bg-white p-3"
+                                    :class="[
+                                        'rounded-2xl border border-[#e7edf2] bg-white p-2 sm:p-3',
+                                        item.question_image.includes('/missing/')
+                                            ? 'overflow-x-auto'
+                                            : 'overflow-hidden',
+                                    ]"
                                 >
                                     <img
                                         :src="item.question_image"
                                         :alt="`Gambar soal ${item.display_order}`"
-                                        class="max-h-[38rem] w-full rounded-xl object-contain"
+                                        :class="[
+                                            'mx-auto rounded-xl object-contain',
+                                            item.question_image.includes('/missing/')
+                                                ? 'w-[720px] max-w-none sm:w-full sm:max-w-[52rem] sm:max-h-[30rem]'
+                                                : 'max-h-[38rem] max-w-full',
+                                        ]"
                                     />
                                 </div>
                             </div>

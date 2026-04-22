@@ -13,7 +13,7 @@ defineProps<{
     <div
         :class="
             cn(
-                'relative flex size-11 items-center justify-center rounded-2xl border text-sm font-semibold transition',
+                'relative flex h-10 min-w-10 items-center justify-center rounded-xl border px-2 text-xs font-semibold transition sm:h-11 sm:min-w-11 sm:rounded-2xl sm:text-sm',
                 {
                     'border-primary bg-primary text-primary-foreground': active,
                     'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300':

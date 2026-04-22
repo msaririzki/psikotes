@@ -97,6 +97,10 @@ const currentQuestion = computed(
     () => props.attempt.questions[activeQuestionIndex.value],
 );
 
+const isMissingPatternQuestion = computed(() =>
+    currentQuestion.value?.question_image?.includes('/missing/'),
+);
+
 const answeredCount = computed(
     () => Object.values(form.answers).filter((value) => value !== null).length,
 );
@@ -335,11 +339,11 @@ onBeforeUnmount(() => {
     <Head :title="`Simulasi ${attempt.package.title || ''}`" />
 
     <div
-        class="mx-auto flex w-full max-w-[1400px] flex-1 flex-col gap-4 p-3 sm:gap-6 sm:p-5"
+        class="mx-auto flex w-full max-w-[1440px] flex-1 flex-col gap-3 p-2 sm:gap-6 sm:p-5"
     >
         <!-- Floating Top Status Bar -->
         <section
-            class="relative z-10 flex flex-col justify-between gap-4 overflow-hidden rounded-2xl border border-white/40 bg-white/70 p-4 shadow-xl shadow-slate-200/40 backdrop-blur-xl sm:gap-5 sm:rounded-[1.5rem] sm:p-5 md:flex-row md:items-center dark:border-slate-800/60 dark:bg-slate-900/60 dark:shadow-none"
+            class="relative z-10 flex flex-col justify-between gap-3 overflow-hidden rounded-2xl border border-white/40 bg-white/80 p-3 shadow-xl shadow-slate-200/40 backdrop-blur-xl sm:gap-5 sm:rounded-[1.5rem] sm:p-5 md:flex-row md:items-center dark:border-slate-800/60 dark:bg-slate-900/60 dark:shadow-none"
         >
             <div
                 class="pointer-events-none absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-transparent to-transparent opacity-50 dark:opacity-20"
@@ -353,7 +357,7 @@ onBeforeUnmount(() => {
                     Sesi latihan sedang berjalan
                 </div>
                 <h1
-                    class="line-clamp-1 max-w-2xl pr-4 font-display text-lg font-bold tracking-tight text-foreground sm:text-2xl"
+                    class="line-clamp-2 max-w-2xl pr-1 font-display text-base font-bold tracking-tight text-foreground sm:line-clamp-1 sm:pr-4 sm:text-2xl"
                 >
                     {{ attempt.package.title }}
                 </h1>
@@ -437,7 +441,7 @@ onBeforeUnmount(() => {
         </section>
 
         <section
-            class="grid items-start gap-4 pb-12 sm:gap-5 xl:grid-cols-[1fr_320px]"
+            class="grid items-start gap-4 pb-12 sm:gap-5 xl:grid-cols-[minmax(0,1fr)_320px]"
         >
             <!-- Main Question Area -->
             <div class="order-1 space-y-4 sm:space-y-5 xl:order-none">
@@ -445,10 +449,10 @@ onBeforeUnmount(() => {
                     class="overflow-hidden rounded-2xl border-border/50 bg-card shadow-sm transition-all sm:rounded-[2rem]"
                 >
                     <CardHeader
-                        class="space-y-4 border-b border-border/40 bg-muted/10 px-6 pt-6 pb-5 sm:px-8"
+                        class="space-y-4 border-b border-border/40 bg-muted/10 px-4 pt-5 pb-5 sm:px-8 sm:pt-6"
                     >
                         <div
-                            class="flex flex-wrap items-center justify-between gap-4"
+                            class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between"
                         >
                             <div
                                 class="inline-flex items-center gap-2 rounded-xl border border-orange-200/50 bg-orange-100 px-3 py-1.5 text-xs font-semibold text-orange-800 shadow-sm dark:border-orange-500/20 dark:bg-orange-900/30 dark:text-orange-300"
@@ -459,48 +463,58 @@ onBeforeUnmount(() => {
                                 Soal No. {{ currentQuestion.display_order }}
                             </div>
                             <div
-                                class="flex shrink-0 items-center gap-2 text-[0.7rem] font-medium tracking-widest text-muted-foreground uppercase"
+                                class="flex max-w-full flex-wrap items-center gap-2 text-[0.65rem] font-medium tracking-widest text-muted-foreground uppercase sm:text-[0.7rem]"
                             >
                                 <span
                                     v-if="currentQuestion.section_name"
-                                    class="rounded-lg border border-border/60 bg-card px-2.5 py-1.5 shadow-sm"
+                                    class="max-w-full rounded-lg border border-border/60 bg-card px-2.5 py-1.5 shadow-sm"
                                     >{{ currentQuestion.section_name }}</span
                                 >
                                 <span
                                     v-if="currentQuestion.code"
-                                    class="rounded-lg border border-border/60 bg-card px-2.5 py-1.5 shadow-sm"
+                                    class="max-w-full rounded-lg border border-border/60 bg-card px-2.5 py-1.5 shadow-sm"
                                     >{{ currentQuestion.code }}</span
                                 >
                             </div>
                         </div>
                         <CardTitle
-                            class="pt-3 text-left text-[1.1rem] leading-relaxed font-medium text-slate-800 sm:text-[1.3rem] dark:text-slate-200"
+                            class="question-text pt-2 text-left text-[1rem] leading-[1.75] font-medium text-slate-800 sm:pt-3 sm:text-[1.2rem] lg:text-[1.28rem] dark:text-slate-200"
                         >
                             {{ currentQuestion.question_text }}
                         </CardTitle>
                         <div
                             v-if="currentQuestion.question_image"
-                            class="overflow-hidden rounded-[1.25rem] border border-border/50 bg-white p-3 shadow-sm dark:bg-slate-950"
+                            :class="[
+                                'rounded-[1.25rem] border border-border/50 bg-white p-2 shadow-sm sm:p-3 dark:bg-slate-950',
+                                isMissingPatternQuestion
+                                    ? 'overflow-x-auto'
+                                    : 'overflow-hidden',
+                            ]"
                         >
                             <img
                                 :src="currentQuestion.question_image"
                                 :alt="`Soal ${currentQuestion.display_order}`"
-                                class="max-h-[38rem] w-full rounded-xl object-contain"
+                                :class="[
+                                    'mx-auto rounded-xl object-contain',
+                                    isMissingPatternQuestion
+                                        ? 'w-[720px] max-w-none sm:w-full sm:max-w-[52rem] sm:max-h-[30rem]'
+                                        : 'max-h-[65vh] min-w-0 max-w-full sm:max-h-[38rem]',
+                                ]"
                             />
                         </div>
                     </CardHeader>
                     <CardContent
-                        class="space-y-5 bg-slate-50/50 p-5 sm:p-8 dark:bg-transparent"
+                        class="space-y-5 bg-slate-50/50 p-4 sm:p-8 dark:bg-transparent"
                     >
                         <!-- Custom Interactive Radio Answers -->
                         <div
-                            class="relative z-10 mx-auto w-full max-w-4xl space-y-3 xl:mx-0"
+                            class="relative z-10 mx-auto w-full max-w-5xl space-y-2.5 sm:space-y-3 xl:mx-0"
                         >
                             <label
                                 v-for="option in currentQuestion.options"
                                 :key="option.id"
                                 :class="[
-                                    'group relative flex cursor-pointer items-start gap-4 rounded-[1.25rem] border p-4 transition-all duration-300 outline-none select-none sm:p-5',
+                                    'group relative flex min-w-0 cursor-pointer items-start gap-3 rounded-[1.15rem] border p-3 transition-all duration-300 outline-none select-none sm:gap-4 sm:rounded-[1.25rem] sm:p-5',
                                     form.answers[currentQuestion.id] ===
                                     option.id
                                         ? 'scale-[1.01] border-indigo-400 bg-indigo-50/80 shadow-lg shadow-indigo-100/50 ring-1 ring-indigo-500/30 dark:border-indigo-500/50 dark:bg-indigo-900/30 dark:shadow-indigo-900/20'
@@ -508,7 +522,7 @@ onBeforeUnmount(() => {
                                 ]"
                             >
                                 <div
-                                    class="relative flex shrink-0 items-center justify-center pt-0.5 sm:pt-1"
+                                    class="relative flex shrink-0 items-center justify-center pt-1"
                                 >
                                     <input
                                         v-model="
@@ -541,7 +555,7 @@ onBeforeUnmount(() => {
                                 </div>
                                 <span
                                     :class="[
-                                        'text-sm leading-[1.65] sm:text-[1.05rem]',
+                                        'min-w-0 flex-1 break-words text-sm leading-[1.7] sm:text-[1.05rem]',
                                         form.answers[currentQuestion.id] ===
                                         option.id
                                             ? 'font-medium text-indigo-950 dark:text-indigo-100'
@@ -553,7 +567,7 @@ onBeforeUnmount(() => {
                                     >
                                         {{ option.option_key }}.
                                     </span>
-                                    <span>{{ option.option_text }}</span>
+                                    <span class="option-text">{{ option.option_text }}</span>
                                 </span>
                             </label>
                         </div>
@@ -561,16 +575,16 @@ onBeforeUnmount(() => {
 
                     <!-- Modern Action Nav Base -->
                     <div
-                        class="mt-4 border-t border-border/40 bg-muted/10 p-5 sm:p-6 sm:px-8"
+                        class="mt-4 border-t border-border/40 bg-muted/10 p-4 sm:p-6 sm:px-8"
                     >
                         <div
-                            class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+                            class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
                         >
-                            <div class="flex gap-2.5 sm:gap-3">
+                            <div class="grid grid-cols-2 gap-2.5 sm:flex sm:gap-3">
                                 <Button
                                     type="button"
                                     variant="outline"
-                                    class="h-12 flex-1 rounded-[1rem] border-border/60 bg-card px-4 font-semibold shadow-sm hover:bg-muted sm:flex-none dark:bg-transparent"
+                                    class="h-12 rounded-[1rem] border-border/60 bg-card px-4 font-semibold shadow-sm hover:bg-muted sm:flex-none dark:bg-transparent"
                                     :disabled="activeQuestionIndex === 0"
                                     @click="
                                         goToQuestion(activeQuestionIndex - 1)
@@ -583,7 +597,7 @@ onBeforeUnmount(() => {
                                 </Button>
                                 <Button
                                     type="button"
-                                    class="h-12 flex-1 rounded-[1rem] bg-indigo-600 px-6 font-semibold text-white shadow-md shadow-indigo-500/25 transition-all hover:-translate-y-0.5 hover:bg-indigo-700 hover:shadow-indigo-500/40 sm:flex-none dark:bg-indigo-600 dark:hover:bg-indigo-500"
+                                    class="h-12 rounded-[1rem] bg-indigo-600 px-6 font-semibold text-white shadow-md shadow-indigo-500/25 transition-all hover:-translate-y-0.5 hover:bg-indigo-700 hover:shadow-indigo-500/40 sm:flex-none dark:bg-indigo-600 dark:hover:bg-indigo-500"
                                     :disabled="
                                         activeQuestionIndex ===
                                         attempt.questions.length - 1
@@ -600,7 +614,7 @@ onBeforeUnmount(() => {
                                 </Button>
                             </div>
                             <div
-                                class="mt-2 flex justify-end gap-2.5 sm:mt-0 sm:gap-3"
+                                class="grid grid-cols-2 gap-2.5 sm:mt-0 sm:flex sm:justify-end sm:gap-3"
                             >
                                 <Button
                                     v-if="
@@ -624,7 +638,7 @@ onBeforeUnmount(() => {
                                             : 'outline'
                                     "
                                     :class="[
-                                        'h-12 rounded-[1rem] px-5 font-semibold shadow-sm transition-all duration-300',
+                                        'h-12 rounded-[1rem] px-4 font-semibold shadow-sm transition-all duration-300 sm:px-5',
                                         form.flags[currentQuestion.id]
                                             ? 'border-amber-500 bg-amber-500 text-amber-950 hover:bg-amber-600 dark:bg-amber-500 dark:hover:bg-amber-600'
                                             : 'border-amber-200 bg-amber-50/50 text-amber-700 hover:bg-amber-100/80 hover:text-amber-800 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-400 dark:hover:bg-amber-500/20',
@@ -677,10 +691,10 @@ onBeforeUnmount(() => {
                         </CardTitle>
                     </CardHeader>
                     <CardContent
-                        class="custom-scroll max-h-[160px] w-full flex-1 overflow-y-auto bg-slate-50/50 p-3 sm:max-h-[300px] sm:p-5 xl:max-h-[50vh] dark:bg-transparent"
+                        class="custom-scroll max-h-[190px] w-full flex-1 overflow-y-auto bg-slate-50/50 p-3 sm:max-h-[300px] sm:p-5 xl:max-h-[50vh] dark:bg-transparent"
                     >
                         <div
-                            class="xs:grid-cols-7 grid grid-cols-6 gap-2 sm:grid-cols-9 sm:gap-2.5 md:grid-cols-10 xl:grid-cols-5"
+                            class="grid grid-cols-[repeat(auto-fill,minmax(2.35rem,1fr))] gap-2 sm:gap-2.5 xl:grid-cols-5"
                         >
                             <button
                                 v-for="(question, index) in attempt.questions"
@@ -780,3 +794,19 @@ onBeforeUnmount(() => {
         </section>
     </div>
 </template>
+
+<style scoped>
+.question-text,
+.option-text {
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+.question-text {
+    white-space: pre-line;
+}
+
+.option-text {
+    white-space: pre-wrap;
+}
+</style>
