@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Link, usePage } from '@inertiajs/vue3';
+import { Link, router, usePage } from '@inertiajs/vue3';
 import {
     BookOpenText,
     BookCheck,
@@ -15,7 +15,7 @@ import {
     SquareLibrary,
     TrendingUp,
 } from 'lucide-vue-next';
-import { computed } from 'vue';
+import { computed, onMounted, onUnmounted } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
@@ -27,11 +27,26 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    useSidebar,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
 const page = usePage();
+const { isMobile, setOpenMobile } = useSidebar();
+let removeNavigateListener: (() => void) | null = null;
+
+onMounted(() => {
+    removeNavigateListener = router.on('navigate', () => {
+        if (isMobile.value) {
+            setOpenMobile(false);
+        }
+    });
+});
+
+onUnmounted(() => {
+    removeNavigateListener?.();
+});
 
 const mainNavItems = computed<NavItem[]>(() => {
     const items: NavItem[] = [

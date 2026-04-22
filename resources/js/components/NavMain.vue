@@ -6,6 +6,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    useSidebar,
 } from '@/components/ui/sidebar';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import type { NavItem } from '@/types';
@@ -15,6 +16,13 @@ defineProps<{
 }>();
 
 const { isCurrentOrParentUrl } = useCurrentUrl();
+const { isMobile, setOpenMobile } = useSidebar();
+
+const handleClick = () => {
+    if (isMobile.value) {
+        setOpenMobile(false);
+    }
+};
 </script>
 
 <template>
@@ -31,6 +39,7 @@ const { isCurrentOrParentUrl } = useCurrentUrl();
                         'bg-indigo-50/80 dark:bg-indigo-500/15 border-l-[3px] border-indigo-600 dark:border-indigo-400': isCurrentOrParentUrl(item.href),
                         'hover:bg-slate-100/80 dark:hover:bg-white/5 border-l-[3px] border-transparent hover:border-slate-300 dark:hover:border-white/10': !isCurrentOrParentUrl(item.href)
                     }"
+                    @click="handleClick"
                 >
                     <Link :href="item.href" class="flex w-full items-center px-1">
                         <!-- Aksesoris Cahaya Latar Glow Jika Aktif -->

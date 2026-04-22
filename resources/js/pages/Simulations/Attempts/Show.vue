@@ -339,10 +339,10 @@ onBeforeUnmount(() => {
     >
         <!-- Floating Top Status Bar -->
         <section
-            class="relative z-10 flex flex-col justify-between gap-4 overflow-hidden rounded-2xl border border-border/50 bg-card p-4 shadow-sm sm:gap-5 sm:rounded-[1.5rem] sm:p-5 md:flex-row md:items-center dark:bg-[#0c111d]"
+            class="relative z-10 flex flex-col justify-between gap-4 overflow-hidden rounded-2xl border border-white/40 bg-white/70 p-4 shadow-xl shadow-slate-200/40 backdrop-blur-xl sm:gap-5 sm:rounded-[1.5rem] sm:p-5 md:flex-row md:items-center dark:border-slate-800/60 dark:bg-slate-900/60 dark:shadow-none"
         >
             <div
-                class="pointer-events-none absolute inset-0 bg-gradient-to-r from-indigo-500/5 via-transparent to-transparent"
+                class="pointer-events-none absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-transparent to-transparent opacity-50 dark:opacity-20"
             ></div>
 
             <div class="relative z-10 flex flex-col gap-1.5">
@@ -474,7 +474,7 @@ onBeforeUnmount(() => {
                             </div>
                         </div>
                         <CardTitle
-                            class="pt-2 text-justify text-xl leading-[1.6] font-semibold text-foreground sm:text-2xl"
+                            class="pt-3 text-left text-[1.1rem] leading-relaxed font-medium text-slate-800 sm:text-[1.3rem] dark:text-slate-200"
                         >
                             {{ currentQuestion.question_text }}
                         </CardTitle>
@@ -503,8 +503,8 @@ onBeforeUnmount(() => {
                                     'group relative flex cursor-pointer items-start gap-4 rounded-[1.25rem] border p-4 transition-all duration-300 outline-none select-none sm:p-5',
                                     form.answers[currentQuestion.id] ===
                                     option.id
-                                        ? 'scale-[1.01] border-indigo-500 bg-indigo-50/50 shadow-md ring-1 shadow-indigo-100 ring-indigo-500/50 dark:border-indigo-500/50 dark:bg-indigo-900/20 dark:shadow-indigo-900/10'
-                                        : 'border-border/60 bg-card shadow-sm hover:border-indigo-300 hover:bg-slate-50 dark:bg-card dark:hover:border-white/10 dark:hover:bg-white/5',
+                                        ? 'scale-[1.01] border-indigo-400 bg-indigo-50/80 shadow-lg shadow-indigo-100/50 ring-1 ring-indigo-500/30 dark:border-indigo-500/50 dark:bg-indigo-900/30 dark:shadow-indigo-900/20'
+                                        : 'border-border/50 bg-white/50 backdrop-blur-sm shadow-sm hover:border-indigo-300 hover:bg-slate-50/80 hover:shadow-md dark:border-white/10 dark:bg-card/50 dark:hover:border-white/20 dark:hover:bg-white/10',
                                 ]"
                             >
                                 <div
@@ -541,7 +541,7 @@ onBeforeUnmount(() => {
                                 </div>
                                 <span
                                     :class="[
-                                        'text-sm leading-relaxed sm:text-base',
+                                        'text-sm leading-[1.65] sm:text-[1.05rem]',
                                         form.answers[currentQuestion.id] ===
                                         option.id
                                             ? 'font-medium text-indigo-950 dark:text-indigo-100'
@@ -583,8 +583,7 @@ onBeforeUnmount(() => {
                                 </Button>
                                 <Button
                                     type="button"
-                                    variant="outline"
-                                    class="h-12 flex-1 rounded-[1rem] border-border/60 border-indigo-200/50 bg-card px-4 font-semibold text-indigo-700 shadow-sm hover:bg-muted sm:flex-none dark:border-indigo-500/20 dark:bg-transparent dark:text-indigo-400"
+                                    class="h-12 flex-1 rounded-[1rem] bg-indigo-600 px-6 font-semibold text-white shadow-md shadow-indigo-500/25 transition-all hover:-translate-y-0.5 hover:bg-indigo-700 hover:shadow-indigo-500/40 sm:flex-none dark:bg-indigo-600 dark:hover:bg-indigo-500"
                                     :disabled="
                                         activeQuestionIndex ===
                                         attempt.questions.length - 1
