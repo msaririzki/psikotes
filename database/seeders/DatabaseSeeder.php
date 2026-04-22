@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             DomainReferenceSeeder::class,
             DemoContentSeeder::class,
+            PolriObjectiveQuestionSeeder::class,
             SimulationPackageSeeder::class,
             DemoJourneySeeder::class,
         ]);

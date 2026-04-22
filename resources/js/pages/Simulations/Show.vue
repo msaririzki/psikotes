@@ -38,6 +38,8 @@ defineProps<{
         instruction: string | null;
         duration_minutes: number;
         question_count: number;
+        tier_label: string;
+        pace_label: string;
         subtests_count: number;
         analytics: {
             attempts_count: number;
@@ -64,7 +66,14 @@ defineProps<{
         >
             <div class="grid gap-6 xl:grid-cols-[1.1fr,0.9fr] xl:items-end">
                 <div class="space-y-4">
-                    <p class="text-sm font-medium text-[#b91c1c]">Paket simulasi</p>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="rounded-full border border-[#b91c1c]/20 bg-white/80 px-3 py-1 text-xs font-bold tracking-widest text-[#b91c1c] uppercase">
+                            {{ simulationPackage.tier_label }}
+                        </span>
+                        <span class="text-sm font-medium text-slate-500">
+                            {{ simulationPackage.pace_label }}
+                        </span>
+                    </div>
                     <div>
                         <h1 class="font-display text-4xl font-bold tracking-tight text-slate-950">
                             {{ simulationPackage.title }}
@@ -88,6 +97,12 @@ defineProps<{
                             {{ simulationPackage.question_count }}
                         </p>
                     </div>
+                    <div class="rounded-[1.5rem] border border-[#dfe8ef] bg-white/90 p-4 sm:col-span-2">
+                        <p class="text-sm text-slate-500">Isi paket</p>
+                        <p class="mt-2 text-2xl font-semibold text-slate-950">
+                            {{ simulationPackage.subtests_count }} bagian
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -103,7 +118,7 @@ defineProps<{
                     </CardHeader>
                     <CardContent class="space-y-4">
                         <p class="text-sm leading-6 text-slate-600">
-                            Simulasi ini memakai timer penuh dan snapshot immutable. Setelah start, soal dan opsi review akan tetap mengikuti kondisi saat attempt dibuat.
+                            Simulasi ini memakai batas waktu. Setelah mulai, soal dan pilihan jawaban disimpan supaya hasilnya tetap sesuai dengan yang kamu kerjakan.
                         </p>
                         <div class="flex flex-wrap gap-3">
                             <Button
@@ -142,7 +157,7 @@ defineProps<{
                     <CardHeader>
                         <CardTitle class="flex items-center gap-2">
                             <Layers3 class="size-5 text-[#b91c1c]" />
-                            Komposisi paket
+                            Isi paket
                         </CardTitle>
                     </CardHeader>
                     <CardContent class="space-y-4">
@@ -167,13 +182,13 @@ defineProps<{
 
                             <div class="mt-4 grid gap-3 sm:grid-cols-2">
                                 <div class="rounded-2xl bg-white p-4 ring-1 ring-[#e6edf3]">
-                                    <p class="text-sm text-slate-500">Bank soal valid</p>
+                                    <p class="text-sm text-slate-500">Soal tersedia</p>
                                     <p class="mt-1 font-semibold text-slate-950">
                                         {{ item.available_questions }}
                                     </p>
                                 </div>
                                 <div class="rounded-2xl bg-white p-4 ring-1 ring-[#e6edf3]">
-                                    <p class="text-sm text-slate-500">Materi terkait</p>
+                                    <p class="text-sm text-slate-500">Materi belajar</p>
                                     <div class="mt-2 flex flex-wrap gap-2">
                                         <Link
                                             v-for="module in item.learning_modules"
@@ -187,7 +202,7 @@ defineProps<{
                                             v-if="item.learning_modules.length === 0"
                                             class="text-sm text-slate-500"
                                         >
-                                            Belum ada modul published.
+                                            Belum ada materi belajar.
                                         </span>
                                     </div>
                                 </div>
@@ -202,15 +217,15 @@ defineProps<{
                     <CardHeader>
                         <CardTitle class="flex items-center gap-2">
                             <Clock3 class="size-5 text-[#b91c1c]" />
-                            Aturan simulasi
+                            Aturan pengerjaan
                         </CardTitle>
                     </CardHeader>
                     <CardContent class="space-y-4 text-sm text-slate-600">
                         <p>
-                            {{ simulationPackage.instruction || 'Ikuti timer penuh, jawab semua soal sebisa mungkin, dan gunakan flag untuk menandai soal ragu-ragu.' }}
+                            {{ simulationPackage.instruction || 'Ikuti batas waktu, jawab semua soal sebisa mungkin, dan tandai soal yang masih ragu.' }}
                         </p>
                         <p>
-                            Setelah waktu habis, sistem akan auto-submit attempt.
+                            Jika waktu habis, jawaban akan dikumpulkan otomatis.
                         </p>
                     </CardContent>
                 </Card>
@@ -219,7 +234,7 @@ defineProps<{
                     <CardHeader>
                         <CardTitle class="flex items-center gap-2">
                             <BookOpenText class="size-5 text-[#b91c1c]" />
-                            Histori paket ini
+                            Riwayat paket ini
                         </CardTitle>
                     </CardHeader>
                     <CardContent class="space-y-3">
@@ -232,7 +247,7 @@ defineProps<{
                             v-if="recentAttempts.length === 0"
                             class="text-sm text-slate-500"
                         >
-                            Belum ada attempt simulasi untuk paket ini.
+                            Belum ada sesi simulasi untuk paket ini.
                         </p>
                     </CardContent>
                 </Card>

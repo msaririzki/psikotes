@@ -40,7 +40,7 @@ class SimulationSessionService
             'packageSubtests.subtest.category',
         ]);
 
-        $questions = $this->selectQuestions($simulationPackage);
+        $questions = $this->selectQuestions($user, $simulationPackage);
 
         return DB::transaction(function () use ($user, $simulationPackage, $questions): Attempt {
             $attempt = Attempt::query()->create([
@@ -139,6 +139,7 @@ class SimulationSessionService
                         'code' => $snapshotQuestion['code'] ?? null,
                         'difficulty_label' => $snapshotQuestion['difficulty_label'] ?? null,
                         'question_text' => $snapshotQuestion['question_text'] ?? '',
+                        'question_image' => $snapshotQuestion['question_image'] ?? null,
                         'options' => collect($attemptQuestion->snapshotOptions())
                             ->map(fn (array $option): array => [
                                 'id' => $option['id'],
@@ -372,6 +373,7 @@ class SimulationSessionService
                         'code' => $snapshotQuestion['code'] ?? null,
                         'difficulty_label' => $snapshotQuestion['difficulty_label'] ?? null,
                         'question_text' => $snapshotQuestion['question_text'] ?? '',
+                        'question_image' => $snapshotQuestion['question_image'] ?? null,
                         'selected_option' => $selectedOption
                             ? [
                                 'option_key' => $selectedOption['option_key'],
@@ -392,7 +394,7 @@ class SimulationSessionService
         ];
     }
 
-    protected function selectQuestions(SimulationPackage $simulationPackage): Collection
+    protected function selectQuestions(User $user, SimulationPackage $simulationPackage): Collection
     {
         $questionRows = collect();
 
@@ -419,7 +421,6 @@ class SimulationSessionService
                 ->orderBy('id')
                 ->get()
                 ->filter(fn (Question $question) => $question->canBeUsedForPractice())
-                ->shuffle()
                 ->values();
 
             if ($eligibleQuestions->count() < $packageSubtest->question_count) {
@@ -427,6 +428,13 @@ class SimulationSessionService
                     'simulation_package' => "Paket simulasi belum bisa dimulai karena soal publish untuk {$subtest->name} belum mencukupi.",
                 ]);
             }
+
+            $eligibleQuestions = $this->prioritizeQuestionsForUser(
+                $user,
+                $simulationPackage,
+                $subtest->id,
+                $eligibleQuestions,
+            );
 
             $questionRows = $questionRows->merge(
                 $eligibleQuestions->take($packageSubtest->question_count)->map(
@@ -439,6 +447,31 @@ class SimulationSessionService
         }
 
         return $questionRows->shuffle()->values();
+    }
+
+    protected function prioritizeQuestionsForUser(
+        User $user,
+        SimulationPackage $simulationPackage,
+        int $subtestId,
+        Collection $eligibleQuestions,
+    ): Collection {
+        $usageCounts = DB::table('attempt_questions')
+            ->join('attempts', 'attempts.id', '=', 'attempt_questions.attempt_id')
+            ->join('questions', 'questions.id', '=', 'attempt_questions.question_id')
+            ->where('attempts.user_id', $user->id)
+            ->where('attempts.mode', AttemptModeEnum::SIMULATION)
+            ->where('attempts.simulation_package_id', $simulationPackage->id)
+            ->where('questions.subtest_id', $subtestId)
+            ->whereIn('attempt_questions.question_id', $eligibleQuestions->pluck('id'))
+            ->select('attempt_questions.question_id', DB::raw('count(*) as usage_count'))
+            ->groupBy('attempt_questions.question_id')
+            ->pluck('usage_count', 'attempt_questions.question_id');
+
+        return $eligibleQuestions
+            ->groupBy(fn (Question $question): int => (int) ($usageCounts[$question->id] ?? 0))
+            ->sortKeys()
+            ->flatMap(fn (Collection $questions): Collection => $questions->shuffle())
+            ->values();
     }
 
     protected function hasExpired(Attempt $attempt): bool

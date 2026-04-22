@@ -19,7 +19,7 @@ defineOptions({
         breadcrumbs: [
             { title: 'Dasbor', href: dashboard() },
             { title: 'Simulasi', href: '/simulations' },
-            { title: 'Result', href: '#' },
+            { title: 'Hasil', href: '#' },
         ],
     },
 });
@@ -63,6 +63,7 @@ defineProps<{
         code: string | null;
         difficulty_label: string | null;
         question_text: string;
+        question_image: string | null;
         selected_option: {
             option_key: string;
             option_text: string | null;
@@ -99,7 +100,7 @@ function formatDuration(totalSeconds: number) {
                     </p>
                     <div>
                         <h1 class="font-display text-4xl font-bold tracking-tight text-slate-950">
-                            Hasil simulasi siap direview.
+                            Hasil simulasi sudah siap dilihat.
                         </h1>
                         <p class="mt-3 max-w-3xl text-base leading-7 text-slate-600">
                             {{ attempt.analysis_text }}
@@ -109,13 +110,13 @@ function formatDuration(totalSeconds: number) {
 
                 <div class="grid gap-4 sm:grid-cols-2">
                     <div class="rounded-[1.6rem] border border-[#dfe8ef] bg-white/90 p-5">
-                        <p class="text-sm text-slate-500">Skor</p>
+                        <p class="text-sm text-slate-500">Nilai</p>
                         <p class="mt-2 text-4xl font-semibold text-slate-950">
                             {{ attempt.score_total }}
                         </p>
                     </div>
                     <div class="rounded-[1.6rem] border border-[#dfe8ef] bg-white/90 p-5">
-                        <p class="text-sm text-slate-500">Akurasi</p>
+                        <p class="text-sm text-slate-500">Ketepatan</p>
                         <p class="mt-2 text-4xl font-semibold text-slate-950">
                             {{ attempt.accuracy }}%
                         </p>
@@ -177,7 +178,7 @@ function formatDuration(totalSeconds: number) {
                     <CardHeader>
                         <CardTitle class="flex items-center gap-2">
                             <Layers3 class="size-5 text-[#b91c1c]" />
-                            Breakdown per subtes
+                            Hasil per bagian soal
                         </CardTitle>
                     </CardHeader>
                     <CardContent class="grid gap-4 md:grid-cols-2">
@@ -221,7 +222,7 @@ function formatDuration(totalSeconds: number) {
 
                 <Card class="rounded-[1.75rem] border-[#dfe8ef] bg-white/95 shadow-sm">
                     <CardHeader>
-                        <CardTitle>Review jawaban simulasi</CardTitle>
+                        <CardTitle>Lihat jawaban simulasi</CardTitle>
                     </CardHeader>
                     <CardContent class="space-y-5">
                         <div
@@ -251,12 +252,22 @@ function formatDuration(totalSeconds: number) {
                                         class="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700"
                                     >
                                         <Flag class="size-3" />
-                                        Flagged
+                                        Ditandai ragu
                                     </span>
                                 </div>
                                 <p class="text-base leading-7 text-slate-800">
                                     {{ item.question_text }}
                                 </p>
+                                <div
+                                    v-if="item.question_image"
+                                    class="overflow-hidden rounded-2xl border border-[#e7edf2] bg-white p-3"
+                                >
+                                    <img
+                                        :src="item.question_image"
+                                        :alt="`Gambar soal ${item.display_order}`"
+                                        class="max-h-[38rem] w-full rounded-xl object-contain"
+                                    />
+                                </div>
                             </div>
 
                             <div class="mt-4 grid gap-3 lg:grid-cols-2">
@@ -332,7 +343,7 @@ function formatDuration(totalSeconds: number) {
                                 class="rounded-2xl border-white/20 bg-transparent text-white hover:bg-white/10"
                             >
                                 <Link href="/practice">
-                                    Kembali ke practice
+                                    Kembali ke latihan
                                 </Link>
                             </Button>
                         </div>
@@ -341,7 +352,7 @@ function formatDuration(totalSeconds: number) {
 
                 <Card class="rounded-[1.75rem] border-[#dfe8ef] bg-white/95 shadow-sm">
                     <CardHeader>
-                        <CardTitle>Ringkasan attempt</CardTitle>
+                        <CardTitle>Ringkasan pengerjaan</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <SimulationHistoryCard

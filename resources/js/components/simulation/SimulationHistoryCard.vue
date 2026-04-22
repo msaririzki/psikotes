@@ -25,7 +25,7 @@ const durationLabel = computed(() => {
                     {{ attempt.package_title || 'Simulasi' }}
                 </p>
                 <p class="text-sm text-muted-foreground">
-                    Skor {{ attempt.score_total ?? 0 }} - Akurasi
+                    Nilai {{ attempt.score_total ?? 0 }} - Ketepatan
                     {{ attempt.accuracy ?? 0 }}%
                 </p>
             </div>
@@ -48,7 +48,7 @@ const durationLabel = computed(() => {
             <div class="rounded-2xl bg-card p-3 ring-1 ring-border/60">
                 <p class="flex items-center gap-2 text-muted-foreground">
                     <Clock3 class="size-4 text-[#b91c1c]" />
-                    Durasi
+                    Lama pengerjaan
                 </p>
                 <p class="mt-1 font-semibold text-foreground">
                     {{ durationLabel }}
@@ -57,7 +57,7 @@ const durationLabel = computed(() => {
             <div class="rounded-2xl bg-card p-3 ring-1 ring-border/60">
                 <p class="flex items-center gap-2 text-muted-foreground">
                     <MonitorPlay class="size-4 text-[#b91c1c]" />
-                    Review
+                    Hasil
                 </p>
                 <Link
                     :href="`/simulations/attempts/${attempt.id}/result`"

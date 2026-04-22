@@ -148,8 +148,48 @@ test('simulation progress autosave keeps latest selected answer', function () {
     ]);
 });
 
-function createSimulationFixture(string $slugPrefix, int $questionCount): array
+test('simulation prioritizes unseen questions on subsequent attempts', function () {
+    [$simulationPackage] = createSimulationFixture('simulation-rotation', 2, 3);
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->post(route('simulations.attempts.store', ['simulationPackage' => $simulationPackage->slug]))
+        ->assertRedirect();
+
+    $firstAttempt = $user->attempts()->latest('id')->first();
+    $firstAttempt->load('attemptQuestions.question.options');
+
+    $firstAnswers = $firstAttempt->attemptQuestions->mapWithKeys(function ($attemptQuestion) {
+        $correctOption = $attemptQuestion->question->options->firstWhere('is_correct', true);
+
+        return [$attemptQuestion->question_id => $correctOption->id];
+    })->all();
+
+    $firstFlags = $firstAttempt->attemptQuestions->mapWithKeys(fn ($attemptQuestion) => [$attemptQuestion->question_id => false])->all();
+    $firstQuestionIds = $firstAttempt->attemptQuestions->pluck('question_id');
+
+    $this->actingAs($user)
+        ->post(route('simulations.attempts.submit', $firstAttempt), [
+            'answers' => $firstAnswers,
+            'flags' => $firstFlags,
+        ])
+        ->assertRedirect(route('simulations.attempts.result', $firstAttempt));
+
+    $this->actingAs($user)
+        ->post(route('simulations.attempts.store', ['simulationPackage' => $simulationPackage->slug]))
+        ->assertRedirect();
+
+    $secondAttempt = $user->attempts()->latest('id')->first();
+    $secondQuestionIds = $secondAttempt->attemptQuestions->pluck('question_id');
+
+    expect($secondAttempt->id)->not->toBe($firstAttempt->id);
+    expect($secondQuestionIds->diff($firstQuestionIds))->not->toBeEmpty();
+});
+
+function createSimulationFixture(string $slugPrefix, int $questionCount, ?int $availableQuestionCount = null): array
 {
+    $availableQuestionCount ??= $questionCount;
+
     $category = Category::query()->create([
         'name' => 'Tes Simulasi '.fake()->unique()->word(),
         'slug' => 'tes-simulasi-'.fake()->unique()->slug(),
@@ -171,7 +211,7 @@ function createSimulationFixture(string $slugPrefix, int $questionCount): array
 
     $questions = collect();
 
-    foreach (range(1, $questionCount) as $index) {
+    foreach (range(1, $availableQuestionCount) as $index) {
         $question = Question::query()->create([
             'category_id' => $category->id,
             'subtest_id' => $subtest->id,

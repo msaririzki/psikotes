@@ -7,8 +7,6 @@ use App\Enums\ModuleLevelEnum;
 use App\Enums\QuestionStatusEnum;
 use App\Enums\QuestionTypeEnum;
 use App\Models\LearningModule;
-use App\Models\Question;
-use App\Models\QuestionOption;
 use App\Models\Subtest;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -50,38 +48,6 @@ class DemoContentSeeder extends Seeder
                 );
             }
 
-            foreach ($blueprint['questions'] as $index => $questionData) {
-                $question = Question::query()->updateOrCreate(
-                    ['code' => $questionData['code']],
-                    [
-                        'category_id' => $subtest->category_id,
-                        'subtest_id' => $subtest->id,
-                        'question_type' => $questionData['question_type'],
-                        'difficulty' => $questionData['difficulty'],
-                        'question_text' => $questionData['question_text'],
-                        'explanation_text' => $questionData['explanation_text'],
-                        'answer_key_text' => $questionData['answer_key_text'],
-                        'status' => QuestionStatusEnum::PUBLISHED,
-                        'source_reference' => 'Demo Seeder Local Run',
-                        'created_by' => $authorId,
-                        'updated_by' => $authorId,
-                    ],
-                );
-
-                foreach ($questionData['options'] as $optionIndex => $optionData) {
-                    QuestionOption::query()->updateOrCreate(
-                        [
-                            'question_id' => $question->id,
-                            'option_key' => $optionData['option_key'],
-                        ],
-                        [
-                            'option_text' => $optionData['option_text'],
-                            'is_correct' => $optionData['is_correct'],
-                            'sort_order' => $optionIndex + 1,
-                        ],
-                    );
-                }
-            }
         }
     }
 

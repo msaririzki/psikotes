@@ -22,6 +22,7 @@ type SimulationQuestion = {
     code: string | null;
     difficulty_label: string | null;
     question_text: string;
+    question_image: string | null;
     options: Array<{
         id: number;
         option_key: string;
@@ -179,7 +180,7 @@ async function persistProgress(options?: {
     if (!keepalive) {
         saveState.value = 'saving';
         saveMessage.value = showFeedback
-            ? 'Menyimpan draft simulasi...'
+            ? 'Menyimpan jawaban sementara...'
             : 'Menyimpan perubahan terakhir...';
         autosavePending = false;
     }
@@ -204,14 +205,14 @@ async function persistProgress(options?: {
 
             if (!response.ok) {
                 throw new Error(
-                    result?.message ?? 'Gagal menyimpan progress simulasi.',
+                    result?.message ?? 'Gagal menyimpan jawaban simulasi.',
                 );
             }
 
             if (!keepalive) {
                 saveState.value = 'saved';
                 saveMessage.value = showFeedback
-                    ? 'Draft simulasi tersimpan.'
+                    ? 'Jawaban sementara tersimpan.'
                     : 'Semua perubahan terakhir sudah aman.';
                 lastSavedLabel.value = `Tersimpan ${formatSavedTime()}`;
             }
@@ -226,8 +227,8 @@ async function persistProgress(options?: {
             if (!keepalive) {
                 saveState.value = 'error';
                 saveMessage.value = showFeedback
-                    ? 'Gagal menyimpan draft simulasi.'
-                    : 'Autosave gagal. Perubahan terakhir belum aman di server.';
+                    ? 'Gagal menyimpan jawaban sementara.'
+                    : 'Penyimpanan otomatis gagal. Perubahan terakhir belum tersimpan.';
             }
 
             return false;
@@ -269,7 +270,7 @@ function flushProgressOnExit() {
 }
 
 function submit(final = false) {
-    if (final && !window.confirm('Submit final simulasi ini sekarang?')) {
+    if (final && !window.confirm('Kumpulkan jawaban sekarang?')) {
         return;
     }
 
@@ -349,7 +350,7 @@ onBeforeUnmount(() => {
                     class="mb-1 inline-flex w-fit items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-2.5 py-1 text-[0.65rem] font-bold tracking-widest text-indigo-700 uppercase dark:border-indigo-500/30 dark:bg-indigo-900/40 dark:text-indigo-300"
                 >
                     <MonitorPlay class="size-3" />
-                    Sesi CAT Berlangsung
+                    Sesi latihan sedang berjalan
                 </div>
                 <h1
                     class="line-clamp-1 max-w-2xl pr-4 font-display text-lg font-bold tracking-tight text-foreground sm:text-2xl"
@@ -397,7 +398,7 @@ onBeforeUnmount(() => {
                         <p
                             class="text-[0.6rem] font-medium tracking-wider text-muted-foreground uppercase sm:text-[0.65rem]"
                         >
-                            Bintang
+                            Ragu
                         </p>
                         <p class="text-xs font-bold text-foreground sm:text-sm">
                             {{ flaggedCount }}
@@ -477,6 +478,16 @@ onBeforeUnmount(() => {
                         >
                             {{ currentQuestion.question_text }}
                         </CardTitle>
+                        <div
+                            v-if="currentQuestion.question_image"
+                            class="overflow-hidden rounded-[1.25rem] border border-border/50 bg-white p-3 shadow-sm dark:bg-slate-950"
+                        >
+                            <img
+                                :src="currentQuestion.question_image"
+                                :alt="`Soal ${currentQuestion.display_order}`"
+                                class="max-h-[38rem] w-full rounded-xl object-contain"
+                            />
+                        </div>
                     </CardHeader>
                     <CardContent
                         class="space-y-5 bg-slate-50/50 p-5 sm:p-8 dark:bg-transparent"
@@ -656,7 +667,7 @@ onBeforeUnmount(() => {
                         <CardTitle
                             class="flex items-center justify-between text-[0.8rem] tracking-widest text-muted-foreground/80 uppercase sm:text-[0.9rem]"
                         >
-                            Navigasi
+                            Daftar soal
                             <span
                                 class="text-xs font-normal tracking-normal lowercase"
                                 >{{ answeredCount }}/{{
@@ -703,13 +714,13 @@ onBeforeUnmount(() => {
                     >
                         <CardTitle
                             class="text-[0.8rem] tracking-widest text-indigo-950 uppercase sm:text-[0.9rem] dark:text-indigo-200/80"
-                            >Evaluasi</CardTitle
+                            >Kumpulkan Jawaban</CardTitle
                         >
                         <p
                             class="pt-1 text-[0.7rem] leading-relaxed font-medium text-muted-foreground/80 sm:text-[0.75rem]"
                         >
-                            Jawaban tersimpan otomatis, jadi kalau keluar sesi
-                            progres terakhir tetap ikut tercatat.
+                            Jawaban tersimpan otomatis. Kalau keluar dari sesi,
+                            jawaban terakhir tetap tersimpan.
                         </p>
                     </CardHeader>
                     <CardContent class="relative z-10 p-5">
@@ -752,7 +763,7 @@ onBeforeUnmount(() => {
                                 @click="submit(true)"
                             >
                                 <CheckCheck class="mr-2 size-4" />
-                                Selesaikan & Nilai Sekarang
+                                Kumpulkan & Lihat Nilai
                             </Button>
                             <Button
                                 as-child
@@ -760,7 +771,7 @@ onBeforeUnmount(() => {
                                 class="mt-1 h-11 rounded-xl text-[0.8rem] text-slate-500 transition-all hover:bg-slate-100 hover:text-slate-800 dark:hover:bg-white/5 dark:hover:text-white"
                             >
                                 <Link href="/simulations"
-                                    >Tunda & Kembali ke Daftar</Link
+                                    >Simpan Dulu & Kembali ke Daftar</Link
                                 >
                             </Button>
                         </div>

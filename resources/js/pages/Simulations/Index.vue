@@ -20,6 +20,8 @@ type SimulasiPackageCard = {
     description: string | null;
     duration_minutes: number;
     question_count: number;
+    tier_label: string;
+    pace_label: string;
     subtests_count: number;
     subtests: Array<{
         name: string | null;
@@ -65,14 +67,14 @@ defineProps<{
                 <div class="space-y-4 max-w-2xl">
                     <div class="inline-flex items-center gap-2 rounded-full border border-indigo-200/50 bg-indigo-50/50 px-3 py-1.5 text-xs font-semibold tracking-widest text-indigo-700 uppercase dark:border-indigo-500/30 dark:bg-indigo-900/20 dark:text-indigo-300">
                         <MonitorPlay class="size-3.5" />
-                        Mode Simulasi / CAT
+                        Latihan Ujian
                     </div>
                     <div>
                         <h1 class="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-3xl">
-                            Paket simulasi penuh untuk menguji performa secara formal.
+                            Pilih paket latihan yang mirip ujian sebenarnya.
                         </h1>
                         <p class="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                            Kerjakan paket dengan timer penuh, navigator soal, flag ragu-ragu, dan review hasil yang tetap stabil walau bank soal berubah.
+                            Kerjakan soal dengan batas waktu, tandai soal yang masih ragu, lalu lihat hasilnya setelah selesai.
                         </p>
                     </div>
                 </div>
@@ -80,19 +82,19 @@ defineProps<{
                 <!-- Compact Stat Bar di dalam hero sebelah kanan -->
                 <div class="grid grid-cols-2 gap-3 sm:gap-4 shrink-0 xl:grid-cols-2 xl:min-w-[400px]">
                     <div class="rounded-2xl border border-border/50 bg-white/40 p-4 backdrop-blur-sm sm:p-5 dark:border-white/5 dark:bg-white/5 shadow-sm dark:shadow-none">
-                        <p class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Paket Aktif</p>
+                        <p class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Paket tersedia</p>
                         <p class="mt-1 text-2xl font-bold text-foreground">{{ summary.packages }}</p>
                     </div>
                     <div class="rounded-2xl border border-border/50 bg-white/40 p-4 backdrop-blur-sm sm:p-5 dark:border-white/5 dark:bg-white/5 shadow-sm dark:shadow-none">
-                        <p class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Histori</p>
+                        <p class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Riwayat</p>
                         <p class="mt-1 text-2xl font-bold text-foreground">{{ summary.attempts }}</p>
                     </div>
                     <div class="rounded-2xl border border-border/50 bg-white/40 p-4 backdrop-blur-sm sm:p-5 dark:border-white/5 dark:bg-white/5 shadow-sm dark:shadow-none">
-                        <p class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Skor Terbaik</p>
+                        <p class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Nilai terbaik</p>
                         <p class="mt-1 text-2xl font-bold text-indigo-600 dark:text-indigo-400">{{ summary.best_score ?? 'N/A' }}</p>
                     </div>
                     <div class="rounded-2xl border border-border/50 bg-white/40 p-4 backdrop-blur-sm sm:p-5 dark:border-white/5 dark:bg-white/5 shadow-sm dark:shadow-none">
-                        <p class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Akurasi</p>
+                        <p class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Ketepatan</p>
                         <p class="mt-1 text-2xl font-bold text-orange-600 dark:text-orange-400">{{ summary.average_accuracy ?? 0 }}%</p>
                     </div>
                 </div>
@@ -118,6 +120,27 @@ defineProps<{
                             <!-- Paket Title & Basic Info -->
                             <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                                 <div class="space-y-2">
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span
+                                            class="rounded-full border px-3 py-1 text-xs font-bold tracking-widest uppercase"
+                                            :class="{
+                                                'border-red-200 bg-red-50 text-red-700 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300':
+                                                    simulationPackage.tier_label ===
+                                                    'Penuh',
+                                                'border-indigo-200 bg-indigo-50 text-indigo-700 dark:border-indigo-500/30 dark:bg-indigo-500/10 dark:text-indigo-300':
+                                                    simulationPackage.tier_label ===
+                                                    'Sedang',
+                                                'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300':
+                                                    simulationPackage.tier_label ===
+                                                    'Cepat',
+                                            }"
+                                        >
+                                            {{ simulationPackage.tier_label }}
+                                        </span>
+                                        <span class="text-xs font-medium text-muted-foreground">
+                                            {{ simulationPackage.pace_label }}
+                                        </span>
+                                    </div>
                                     <h3 class="font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                                         {{ simulationPackage.title }}
                                     </h3>
@@ -132,6 +155,9 @@ defineProps<{
                                     <span class="rounded-full bg-muted/60 px-3 py-1 ring-1 ring-border/50 dark:bg-muted/30">
                                         {{ simulationPackage.duration_minutes }} menit
                                     </span>
+                                    <span class="rounded-full bg-muted/60 px-3 py-1 ring-1 ring-border/50 dark:bg-muted/30">
+                                        {{ simulationPackage.subtests_count }} bagian
+                                    </span>
                                 </div>
                             </div>
 
@@ -139,7 +165,7 @@ defineProps<{
                             <div class="grid gap-4 lg:grid-cols-2">
                                 <div class="rounded-2xl border border-border/40 bg-muted/20 p-4 dark:bg-black/10">
                                     <p class="text-[0.65rem] font-bold tracking-widest text-muted-foreground uppercase opacity-80 mb-3">
-                                        Komposisi Subtes ({{ simulationPackage.subtests_count }} bagian)
+                                        Isi Paket
                                     </p>
                                     <div class="flex flex-wrap gap-1.5">
                                         <span
@@ -154,16 +180,16 @@ defineProps<{
 
                                 <div class="rounded-2xl border border-border/40 bg-muted/20 p-4 dark:bg-black/10">
                                     <p class="text-[0.65rem] font-bold tracking-widest text-muted-foreground uppercase opacity-80 mb-3">
-                                        Ringkasan Progres
+                                        Perkembangan Latihan
                                     </p>
                                     <div class="flex items-center gap-6">
                                         <div>
-                                            <p class="text-xs text-muted-foreground">Attempt</p>
+                                            <p class="text-xs text-muted-foreground">Sesi dikerjakan</p>
                                             <p class="mt-0.5 text-lg font-bold text-foreground">{{ simulationPackage.analytics.attempts_count }}</p>
                                         </div>
                                         <div class="h-8 w-px bg-border/60"></div>
                                         <div>
-                                            <p class="text-xs text-muted-foreground">Skor terbaik</p>
+                                            <p class="text-xs text-muted-foreground">Nilai terbaik</p>
                                             <p class="mt-0.5 text-lg font-bold text-indigo-600 dark:text-indigo-400">
                                                 {{ simulationPackage.analytics.best_score ?? '-' }}
                                             </p>
@@ -219,12 +245,12 @@ defineProps<{
                     <CardHeader class="relative z-10 pb-2">
                         <CardTitle class="flex items-center gap-2 text-indigo-100">
                             <ShieldCheck class="size-5 text-indigo-400" />
-                            Sistem Snapshot
+                            Soal Tersimpan Aman
                         </CardTitle>
                     </CardHeader>
                     <CardContent class="relative z-10 space-y-3 text-sm text-indigo-200/80">
-                        <p>Setiap attempt menyimpan salinan soal/opsi statis saat sesi dibuat.</p>
-                        <p>Hasil review akan selalu konsisten 100% dari waktu pengerjaan walau admin merubah bank soal setelahnya.</p>
+                        <p>Setiap sesi menyimpan salinan soal saat mulai dikerjakan.</p>
+                        <p>Hasil tetap sesuai dengan soal yang kamu kerjakan, meskipun bank soal diperbarui setelahnya.</p>
                     </CardContent>
                 </Card>
 
@@ -232,7 +258,7 @@ defineProps<{
                     <CardHeader class="pb-3 border-b border-border/40">
                         <CardTitle class="flex items-center gap-2">
                             <MonitorPlay class="size-5 text-indigo-600 dark:text-indigo-400" />
-                            Histori simulasi
+                            Riwayat simulasi
                         </CardTitle>
                     </CardHeader>
                     <CardContent class="space-y-3 pt-5 p-5 sm:p-6">
@@ -242,7 +268,7 @@ defineProps<{
                             :attempt="attempt"
                         />
                         <p v-if="recentAttempts.length === 0" class="text-sm italic text-muted-foreground text-center py-4">
-                            Belum ada histori simulasi yg terekam.
+                            Belum ada riwayat simulasi.
                         </p>
                     </CardContent>
                 </Card>
@@ -251,11 +277,11 @@ defineProps<{
                     <CardContent class="space-y-3 p-5 text-sm text-orange-900/80 dark:text-orange-200/70 sm:p-6">
                         <div class="flex items-start gap-3">
                             <Clock3 class="mt-0.5 size-4 text-orange-600 shrink-0 dark:text-orange-400" />
-                            <span>Gunakan menu <strong>Latihan</strong> dulu jika penguasaan materimu belum solid, sebelum merusak rasio statistik simulasi.</span>
+                            <span>Gunakan menu <strong>Latihan</strong> dulu jika belum siap mengerjakan paket simulasi penuh.</span>
                         </div>
                         <div class="flex items-start gap-3">
                             <Clock3 class="mt-0.5 size-4 text-orange-600 shrink-0 dark:text-orange-400" />
-                            <span>Flag soal yang ragu, selesaikan sisanya lalu review kembali sebelum menekan submit final.</span>
+                            <span>Tandai soal yang masih ragu, selesaikan soal lain, lalu cek lagi sebelum mengumpulkan jawaban.</span>
                         </div>
                     </CardContent>
                 </Card>

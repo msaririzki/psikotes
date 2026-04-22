@@ -100,6 +100,8 @@ class SimulationCatalogService
                 'instruction' => $simulationPackage->instruction,
                 'duration_minutes' => $simulationPackage->duration_minutes,
                 'question_count' => $simulationPackage->question_count,
+                'tier_label' => $this->tierLabel($simulationPackage),
+                'pace_label' => $this->paceLabel($simulationPackage),
                 'subtests_count' => $simulationPackage->packageSubtests->count(),
                 'analytics' => [
                     'attempts_count' => $recentAttempts->count(),
@@ -157,10 +159,11 @@ class SimulationCatalogService
             'description' => Str::limit((string) $simulationPackage->description, 180),
             'duration_minutes' => $simulationPackage->duration_minutes,
             'question_count' => $simulationPackage->question_count,
+            'tier_label' => $this->tierLabel($simulationPackage),
+            'pace_label' => $this->paceLabel($simulationPackage),
             'subtests_count' => $simulationPackage->packageSubtests->count(),
             'subtests' => $simulationPackage->packageSubtests
                 ->sortBy('sort_order')
-                ->take(3)
                 ->values()
                 ->map(fn ($packageSubtest): array => [
                     'name' => $packageSubtest->subtest?->name,
@@ -197,6 +200,36 @@ class SimulationCatalogService
             'duration_seconds' => $attempt->duration_seconds,
             'submitted_at' => $attempt->submitted_at?->toIso8601String(),
         ];
+    }
+
+    protected function tierLabel(SimulationPackage $simulationPackage): string
+    {
+        return match ($simulationPackage->slug) {
+            'simulasi-real-lengkap-polri-2025' => 'Penuh',
+            'simulasi-real-akademik-polri-2025' => 'Sedang',
+            'simulasi-real-kecepatan-polri-2025' => 'Cepat',
+            default => 'Simulasi',
+        };
+    }
+
+    protected function paceLabel(SimulationPackage $simulationPackage): string
+    {
+        if ($simulationPackage->question_count <= 0 || $simulationPackage->duration_minutes <= 0) {
+            return 'Waktu fleksibel';
+        }
+
+        $secondsPerQuestion = (int) floor(($simulationPackage->duration_minutes * 60) / $simulationPackage->question_count);
+
+        if ($secondsPerQuestion >= 60) {
+            $minutes = intdiv($secondsPerQuestion, 60);
+            $seconds = $secondsPerQuestion % 60;
+
+            return $seconds > 0
+                ? "{$minutes} menit {$seconds} detik / soal"
+                : "{$minutes} menit / soal";
+        }
+
+        return "{$secondsPerQuestion} detik / soal";
     }
 
     protected function eligibleQuestionsCount(?int $subtestId): int
