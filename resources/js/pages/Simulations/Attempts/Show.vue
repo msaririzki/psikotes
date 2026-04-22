@@ -98,7 +98,7 @@ const currentQuestion = computed(
 );
 
 const isMissingPatternQuestion = computed(() =>
-    currentQuestion.value?.question_image?.includes('/missing/'),
+    currentQuestion.value?.question_image?.includes('/missing') ?? false,
 );
 
 const missingPatternValues = computed(() => {
@@ -355,7 +355,7 @@ onBeforeUnmount(() => {
     >
         <!-- Floating Top Status Bar -->
         <section
-            class="relative z-10 flex flex-col justify-between gap-3 overflow-hidden rounded-2xl border border-white/40 bg-white/80 p-3 shadow-xl shadow-slate-200/40 backdrop-blur-xl sm:gap-5 sm:rounded-[1.5rem] sm:p-5 md:flex-row md:items-center dark:border-slate-800/60 dark:bg-slate-900/60 dark:shadow-none"
+            class="relative z-10 flex flex-col justify-between gap-3 overflow-hidden rounded-[1.25rem] border border-border/40 bg-white p-3 shadow-md shadow-slate-200/30 sm:gap-5 sm:rounded-[1.5rem] md:bg-white/80 md:backdrop-blur-xl sm:p-5 md:flex-row md:items-center dark:border-slate-800/60 dark:bg-slate-900 dark:md:bg-slate-900/60 dark:shadow-none"
         >
             <div
                 class="pointer-events-none absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-transparent to-transparent opacity-50 dark:opacity-20"
@@ -514,10 +514,7 @@ onBeforeUnmount(() => {
                             </div>
                         </div>
                         <div
-                            v-if="
-                                currentQuestion.question_image &&
-                                !isMissingPatternQuestion
-                            "
+                            v-if="currentQuestion.question_image"
                             :class="[
                                 'rounded-[1.25rem] border border-border/50 bg-white p-2 shadow-sm sm:p-3 dark:bg-slate-950',
                                 isMissingPatternQuestion
@@ -531,7 +528,7 @@ onBeforeUnmount(() => {
                                 :class="[
                                     'mx-auto rounded-xl object-contain',
                                     isMissingPatternQuestion
-                                        ? 'w-[720px] max-w-none sm:w-full sm:max-w-[52rem] sm:max-h-[30rem]'
+                                        ? 'w-[11rem] max-w-full sm:w-[13rem]'
                                         : 'max-h-[65vh] min-w-0 max-w-full sm:max-h-[38rem]',
                                 ]"
                             />
@@ -548,11 +545,11 @@ onBeforeUnmount(() => {
                                 v-for="option in currentQuestion.options"
                                 :key="option.id"
                                 :class="[
-                                    'group relative flex min-w-0 cursor-pointer items-start gap-3 rounded-[1.15rem] border p-3 transition-all duration-300 outline-none select-none sm:gap-4 sm:rounded-[1.25rem] sm:p-5',
+                                    'group relative flex min-w-0 cursor-pointer items-start gap-3 rounded-[1.15rem] border p-3 transition-colors duration-200 outline-none select-none sm:gap-4 sm:rounded-[1.25rem] sm:p-5',
                                     form.answers[currentQuestion.id] ===
                                     option.id
-                                        ? 'scale-[1.01] border-indigo-400 bg-indigo-50/80 shadow-lg shadow-indigo-100/50 ring-1 ring-indigo-500/30 dark:border-indigo-500/50 dark:bg-indigo-900/30 dark:shadow-indigo-900/20'
-                                        : 'border-border/50 bg-white/50 backdrop-blur-sm shadow-sm hover:border-indigo-300 hover:bg-slate-50/80 hover:shadow-md dark:border-white/10 dark:bg-card/50 dark:hover:border-white/20 dark:hover:bg-white/10',
+                                        ? 'scale-[1.01] border-indigo-400 bg-indigo-50 shadow-md shadow-indigo-100/50 ring-1 ring-indigo-500/30 dark:border-indigo-500/50 dark:bg-indigo-900/30 dark:shadow-indigo-900/20'
+                                        : 'border-border/60 bg-white shadow-sm hover:border-indigo-300 hover:bg-slate-50 hover:shadow-md dark:border-white/10 dark:bg-card/50 dark:hover:border-white/20 dark:hover:bg-card/80',
                                 ]"
                             >
                                 <div
@@ -754,7 +751,7 @@ onBeforeUnmount(() => {
                     class="group overflow-hidden rounded-2xl border border-indigo-200/60 bg-indigo-50/40 shadow-sm transition-all focus-within:border-indigo-300 hover:border-indigo-300 hover:bg-indigo-50/60 sm:rounded-[1.75rem] dark:border-indigo-500/20 dark:bg-[#0c111d] dark:hover:border-indigo-500/30"
                 >
                     <div
-                        class="pointer-events-none absolute -right-10 -bottom-10 size-32 rounded-full bg-indigo-500 opacity-30 blur-3xl transition-opacity group-hover:opacity-40"
+                        class="pointer-events-none absolute -right-10 -bottom-10 size-32 rounded-full bg-indigo-500 opacity-20 blur-2xl transition-opacity group-hover:opacity-30 sm:opacity-30 sm:blur-3xl sm:group-hover:opacity-40"
                     ></div>
                     <CardHeader
                         class="relative z-10 space-y-0.5 border-b border-indigo-200/40 px-4 pt-4 pb-3 sm:px-5 sm:pt-5 dark:border-white/5"

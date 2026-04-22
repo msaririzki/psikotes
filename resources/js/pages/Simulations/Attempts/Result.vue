@@ -300,12 +300,7 @@ function missingPatternValues(questionText: string, questionImage: string | null
                                     </div>
                                 </div>
                                 <div
-                                    v-if="
-                                        item.question_image &&
-                                        !isMissingPatternQuestion(
-                                            item.question_image,
-                                        )
-                                    "
+                                    v-if="item.question_image"
                                     :class="[
                                         'rounded-2xl border border-[#e7edf2] bg-white p-2 sm:p-3',
                                         item.question_image.includes('/missing/')
@@ -319,7 +314,7 @@ function missingPatternValues(questionText: string, questionImage: string | null
                                         :class="[
                                             'mx-auto rounded-xl object-contain',
                                             item.question_image.includes('/missing/')
-                                                ? 'w-[720px] max-w-none sm:w-full sm:max-w-[52rem] sm:max-h-[30rem]'
+                                                ? 'w-[640px] max-w-none sm:w-full sm:max-w-[46rem] sm:max-h-[24rem]'
                                                 : 'max-h-[38rem] max-w-full',
                                         ]"
                                     />
