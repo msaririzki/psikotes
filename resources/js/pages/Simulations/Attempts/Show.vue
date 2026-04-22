@@ -516,22 +516,38 @@ onBeforeUnmount(() => {
                         <div
                             v-if="currentQuestion.question_image"
                             :class="[
-                                'rounded-[1.25rem] border border-border/50 bg-white p-2 shadow-sm sm:p-3 dark:bg-slate-950',
+                                'rounded-[1.25rem] border border-border/50 bg-white shadow-sm dark:bg-slate-950',
                                 isMissingPatternQuestion
                                     ? 'overflow-x-auto'
                                     : 'overflow-hidden',
                             ]"
                         >
-                            <img
-                                :src="currentQuestion.question_image"
-                                :alt="`Soal ${currentQuestion.display_order}`"
+                            <!-- Scroll hint untuk layar mobile -->
+                            <div
+                                v-if="isMissingPatternQuestion"
+                                class="flex items-center justify-end gap-1 border-b border-border/30 px-3 py-1.5 text-[0.6rem] font-medium tracking-wider text-muted-foreground/60 uppercase sm:hidden"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                Geser untuk melihat gambar
+                            </div>
+                            <div
                                 :class="[
-                                    'mx-auto rounded-xl object-contain',
                                     isMissingPatternQuestion
-                                        ? 'w-[11rem] max-w-full sm:w-[13rem]'
-                                        : 'max-h-[65vh] min-w-0 max-w-full sm:max-h-[38rem]',
+                                        ? 'p-3 sm:p-5'
+                                        : 'p-2 sm:p-3',
                                 ]"
-                            />
+                            >
+                                <img
+                                    :src="currentQuestion.question_image"
+                                    :alt="`Soal ${currentQuestion.display_order}`"
+                                    :class="[
+                                        'rounded-xl object-contain',
+                                        isMissingPatternQuestion
+                                            ? 'h-auto w-auto max-h-[22rem] min-w-[480px] max-w-none sm:min-w-[600px] sm:max-h-[28rem]'
+                                            : 'mx-auto max-h-[65vh] min-w-0 max-w-full sm:max-h-[38rem]',
+                                    ]"
+                                />
+                            </div>
                         </div>
                     </CardHeader>
                     <CardContent
